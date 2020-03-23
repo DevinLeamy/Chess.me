@@ -1,6 +1,6 @@
 # Chess.me
 A Chess App. <br/>
-As of now it's playable so enjoy playing Chess.me!
+As of now it's playable so enjoy playing Chess.me! <br/>
 NOTE: I will be adding multiplayer [Bluetooth, Wifi and Cellular] features.
 
 # Deloyment
