@@ -24,7 +24,7 @@ let WHITE_PAWN_IMAGE = UIImage(named: "WhitePawn")!
 let BLACK_PAWN_IMAGE = UIImage(named: "BlackPawn")!
 let BLANK_IMAGE = UIImage(named: "Blank")!
 let RED_TILE_IMAGE = UIImage(named: "RedTile")!
-let BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(2)")!
+let BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(3)")!
 let RETRY_LOGO_IMAGE = UIImage(named: "WhiteRetryLogo")!
 
 class ViewController: UIViewController {

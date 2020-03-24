@@ -526,12 +526,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u5C-ki-OLJ">
-                                <rect key="frame" x="104.5" y="677" width="205" height="48"/>
-                                <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="30"/>
-                                <state key="normal" title="           Play.           ">
-                                    <color key="titleColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u5C-ki-OLJ">
+                                <rect key="frame" x="69" y="355" width="276" height="447"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="45"/>
+                                <state key="normal" title="           Play.        ">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <segue destination="BYZ-38-t0r" kind="show" id="Mjb-Iu-nxw"/>
@@ -548,13 +548,14 @@
                         <constraints>
                             <constraint firstItem="u5C-ki-OLJ" firstAttribute="centerX" secondItem="P0X-fj-YZW" secondAttribute="centerX" id="41v-ut-bNP"/>
                             <constraint firstItem="zug-9o-eHe" firstAttribute="centerX" secondItem="P0X-fj-YZW" secondAttribute="centerX" id="6ai-r9-5cu"/>
-                            <constraint firstItem="u5C-ki-OLJ" firstAttribute="top" secondItem="P0X-fj-YZW" secondAttribute="top" constant="633" id="JdC-Yg-94H"/>
+                            <constraint firstItem="u5C-ki-OLJ" firstAttribute="top" secondItem="P0X-fj-YZW" secondAttribute="top" constant="311" id="Teh-Y8-Zuc"/>
                             <constraint firstItem="zug-9o-eHe" firstAttribute="top" secondItem="P0X-fj-YZW" secondAttribute="top" constant="137" id="thN-kU-Rnk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="P0X-fj-YZW"/>
                     </view>
                     <connections>
                         <outlet property="introBackgroundView" destination="PYx-he-XWe" id="zWg-bp-8Qs"/>
+                        <outlet property="playButton" destination="u5C-ki-OLJ" id="YNl-9C-iRI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ovh-GJ-hqe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

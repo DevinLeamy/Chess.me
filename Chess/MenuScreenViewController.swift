@@ -7,14 +7,16 @@
 //
 
 import UIKit
-let INTRO_BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(2)")!
+let INTRO_BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(3)")!
 class MenuScreenViewController: UIViewController {
 	
+	@IBOutlet var playButton: UIButton!
 	@IBOutlet var introBackgroundView: UIView!
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		introBackgroundView.layer.contents = (INTRO_BACKGROUND_IMAGE).cgImage
-
+		playButton.widthAnchor.constraint(equalToConstant: 275).isActive = true
+		playButton.heightAnchor.constraint(equalToConstant: 400).isActive = true
         // Do any additional setup after loading the view.
 	}
     
