@@ -7,9 +7,6 @@
 //
 
 import UIKit
-//import SocketIO
-//import Starscream
-//This is a test
 
 let WHITE_TILE_IMAGE = UIImage(named: "LightWoodTile")!
 let BLACK_TILE_IMAGE = UIImage(named: "DarkWoodTile(2)")!
@@ -29,11 +26,8 @@ let BLANK_IMAGE = UIImage(named: "Blank")!
 let RED_TILE_IMAGE = UIImage(named: "RedTile")!
 let BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(2)")!
 let RETRY_LOGO_IMAGE = UIImage(named: "WhiteRetryLogo")!
-// Creates websocket and connects it to our local host
-//let socket = WebSocket(url: URL(string: "ws://127.0.0.1:8080/")!)  //sudo apachectl [start|stop]
-//let socket = WebSocket(url: URL(string: "ws://178.32.48.82:8088/")!)
 
-class ViewController: UIViewController { //}, WebSocketDelegate {
+class ViewController: UIViewController {
 	//Outlets
 	@IBOutlet var retryBtn: UIButton!
 	@IBOutlet var flipBoardSwitch: UISwitch!
@@ -52,10 +46,6 @@ class ViewController: UIViewController { //}, WebSocketDelegate {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		//Initialize Websocket
-//		socket.delegate = self
-//		socket.connect()
-		
 		displayWinnerlbl.text = "WHITE TO MOVE"
 		
 		//Gets the buttons from the stackView and transfers them to an array
@@ -272,33 +262,5 @@ class ViewController: UIViewController { //}, WebSocketDelegate {
 			GAMEBOARD.flipBoard(bottom: Side.White)
 		}
 	}
-	
-//	
-//	func websocketDidConnect(socket: WebSocketClient) {
-//		print("Socket did connect")
-//		socket.write(string: "Please send me a message")
-//	}
-//		
-//	func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
-//		print("Socket did disconnect")
-//		alertSocketIsConnected()
-//	}
-//	
-//	func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-//		print("Socket did receive message")
-//		
-//	}
-//	
-//	func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-//		print("Socket did receive data")
-//	}
-//	
-//	func alertSocketIsConnected() -> Void {
-//		if socket.isConnected {
-//			print("SOCKET IS CONNECTED")
-//		} else {
-//			print("SOCKET IS NOT CONNECTED")
-//		}
-//	}
 }
 
