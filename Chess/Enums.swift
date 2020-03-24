@@ -46,3 +46,9 @@ enum GameWon {
 	case TimeOut
 	case Undecided
 }
+enum GameMode {
+        case SinglePlayer //Versus computer
+        case Multiplayer //Online
+        case LocalMultiplayer //Bluetooth games
+        // case TwoPlayersOnOneDevice
+}
