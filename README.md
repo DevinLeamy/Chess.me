@@ -3,7 +3,7 @@ A Chess App. <br/>
 As of now it's playable so enjoy playing Chess.me! <br/>
 NOTE: I will be adding multiplayer [Bluetooth, Wifi and Cellular] features.
 
-# Deloyment
+# Deployment
 1. > Clone the repo <br/>
 2. > [In terminal] Type: sudo gem install cocoapods <br/>
 3. > [In terminal] Navigate to project folder; the one with the Chess.xcworkspace <br/>
