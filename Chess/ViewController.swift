@@ -107,7 +107,7 @@ class ViewController: UIViewController {
 			//One tile has already been selected
 			let oldRow = selectedTile[0]
 			let oldCol = selectedTile[1]
-			let pieceBeingMoved = GAMEBOARD.board[oldRow][oldCol]
+			var pieceBeingMoved = GAMEBOARD.board[oldRow][oldCol]
 			if GAMEBOARD.makeMove(oldRow: oldRow, oldCol: oldCol, newRow: row, newCol: col, white: WHITE, black: BLACK, buttonChessBoard: userChessBoard) {
 				if pieceBeingMoved.getType() == Pieces.Rook {
 					(pieceBeingMoved as! Rook).setCanCastle(canCastle: false)
@@ -140,6 +140,10 @@ class ViewController: UIViewController {
 				} else if pieceBeingMoved.getType() == Pieces.Pawn {
 					if abs(row - oldRow) == 2 {
 						(pieceBeingMoved as! Pawn).setMovedTwice(movedTwice: true)
+					} else if row == 0 || row == 7 {
+						pieceBeingMoved = Queen(currentRow: row, currentCol: col,  side: pieceBeingMoved.getSide(), type: Pieces.Queen)
+						GAMEBOARD.board[row][col] = pieceBeingMoved
+						GAMEBOARD.board[row][col].setNextMoves(board: GAMEBOARD)
 					}
 				}
 				GAMEBOARD.userChessBoard[row][col].setImage(GAMEBOARD.getImageFor(piece: pieceBeingMoved), for: UIControl.State.normal)
