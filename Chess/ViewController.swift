@@ -8,7 +8,7 @@
 
 import UIKit
 //import SocketIO
-import Starscream
+//import Starscream
 //This is a test
 
 let WHITE_TILE_IMAGE = UIImage(named: "LightWoodTile")!
@@ -31,9 +31,9 @@ let BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(2)")!
 let RETRY_LOGO_IMAGE = UIImage(named: "WhiteRetryLogo")!
 // Creates websocket and connects it to our local host
 //let socket = WebSocket(url: URL(string: "ws://127.0.0.1:8080/")!)  //sudo apachectl [start|stop]
-let socket = WebSocket(url: URL(string: "ws://178.32.48.82:8088/")!)
+//let socket = WebSocket(url: URL(string: "ws://178.32.48.82:8088/")!)
 
-class ViewController: UIViewController, WebSocketDelegate {
+class ViewController: UIViewController { //}, WebSocketDelegate {
 	//Outlets
 	@IBOutlet var retryBtn: UIButton!
 	@IBOutlet var flipBoardSwitch: UISwitch!
@@ -53,8 +53,8 @@ class ViewController: UIViewController, WebSocketDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		//Initialize Websocket
-		socket.delegate = self
-		socket.connect()
+//		socket.delegate = self
+//		socket.connect()
 		
 		displayWinnerlbl.text = "WHITE TO MOVE"
 		
@@ -273,32 +273,32 @@ class ViewController: UIViewController, WebSocketDelegate {
 		}
 	}
 	
-	
-	func websocketDidConnect(socket: WebSocketClient) {
-		print("Socket did connect")
-		socket.write(string: "Please send me a message")
-	}
-		
-	func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
-		print("Socket did disconnect")
-		alertSocketIsConnected()
-	}
-	
-	func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-		print("Socket did receive message")
-		
-	}
-	
-	func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-		print("Socket did receive data")
-	}
-	
-	func alertSocketIsConnected() -> Void {
-		if socket.isConnected {
-			print("SOCKET IS CONNECTED")
-		} else {
-			print("SOCKET IS NOT CONNECTED")
-		}
-	}
+//	
+//	func websocketDidConnect(socket: WebSocketClient) {
+//		print("Socket did connect")
+//		socket.write(string: "Please send me a message")
+//	}
+//		
+//	func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
+//		print("Socket did disconnect")
+//		alertSocketIsConnected()
+//	}
+//	
+//	func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
+//		print("Socket did receive message")
+//		
+//	}
+//	
+//	func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
+//		print("Socket did receive data")
+//	}
+//	
+//	func alertSocketIsConnected() -> Void {
+//		if socket.isConnected {
+//			print("SOCKET IS CONNECTED")
+//		} else {
+//			print("SOCKET IS NOT CONNECTED")
+//		}
+//	}
 }
 
