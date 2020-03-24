@@ -15,6 +15,8 @@ class Board {
 	var userChessBoard: [[UIButton]]
 	var currentBottom = Side.White
 	var verticalStackView: UIStackView
+	var lastMove: [Int] = []
+	var lastPieceToMove: Piece!
 	init(userChessBoard: [[UIButton]], verticalStackView: UIStackView?) {
 		if (verticalStackView != nil) {
 			self.verticalStackView = verticalStackView!
@@ -148,6 +150,8 @@ class Board {
 			}
 		}
 		board[newRow][newCol] = pieceBeingMoved
+		lastMove = [oldRow, oldCol, newRow, newCol]
+		lastPieceToMove = board[newRow][newCol]
 		return true
 	}
 	
@@ -250,6 +254,35 @@ class Board {
 				}
 			}
 			isWhite = !isWhite
+		}
+		if lastMove.count != 0 {
+			drawPathFrom(row: lastMove[0], col: lastMove[1], toRow: lastMove[2], andCol: lastMove[3])
+		}
+	}
+	
+	func drawPathFrom(row: Int, col: Int, toRow newRow: Int, andCol newCol: Int) {
+		if lastPieceToMove.getType() == Pieces.Knight {
+			userChessBoard[row][col].alpha = 0.25
+		} else {
+			var currentRow = row
+			var currentCol = col
+			repeat {
+				userChessBoard[currentRow][currentCol].alpha = 0.25
+				if currentRow != newRow {
+					if currentRow > newRow {
+						currentRow -= 1
+					} else {
+						currentRow += 1
+					}
+				}
+				if currentCol != newCol {
+					if currentCol > newCol {
+						currentCol -= 1
+					} else {
+						currentCol += 1
+					}
+				}
+			} while (currentRow != newRow || currentCol != newCol);
 		}
 	}
 }
