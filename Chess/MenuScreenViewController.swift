@@ -8,46 +8,46 @@
 
 import UIKit
 
-let INTRO_BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(3)")!
+let INTRO_BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(4)")!
 var selectedGameMode = GameMode.SinglePlayer
 
-class MenuScreenViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class MenuScreenViewController: UIViewController {
 	
+	@IBOutlet var changeGameModebtn: UIButton!
+	@IBOutlet var introHeaderlbl: UILabel!
 	@IBOutlet var playButton: UIButton!
 	@IBOutlet var introBackgroundView: UIView!
-	@IBOutlet var gameTypePickerView: UIPickerView!
+	@IBOutlet var displayGameModelbl: UILabel!
 	var gameModes: [String] = [String]()
+	var currentRow = 0
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		introHeaderlbl.layer.backgroundColor = UIColor.lightGray.cgColor
+		introHeaderlbl.layer.borderColor = UIColor.black.cgColor
+		introHeaderlbl.layer.borderWidth = 5
+		
 		introBackgroundView.layer.contents = (INTRO_BACKGROUND_IMAGE).cgImage
-		playButton.contentHorizontalAlignment = .right;
-		playButton.layer.zPosition = 10
-		playButton.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 45.0)
-
-                self.gameTypePickerView.delegate = self
-                self.gameTypePickerView.dataSource = self
+		
+		changeGameModebtn.layer.cornerRadius = 10
 		
 		
-		gameTypePickerView.layer.zPosition = 5 //Makes the playButton go over the picker View
+		playButton.clipsToBounds = true
+		playButton.layer.cornerRadius = 10
+		playButton.layer.backgroundColor = UIColor.lightGray.cgColor
+		
+		displayGameModelbl.layer.backgroundColor = UIColor.lightGray.cgColor
+		displayGameModelbl.layer.borderColor = UIColor.black.cgColor
+		displayGameModelbl.layer.borderWidth = 1
+		
                 gameModes = ["me", "online", "local"]
-        // Do any additional setup after loading the view.
 	}
     
 	
-        
-        func numberOfComponents(in pickerView: UIPickerView) -> Int {
-                return 1
-        }
-
-        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-                return gameModes.count
-        }
-	
-	func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-
-		var pickerLabel = view as? UILabel;
-		pickerLabel = pickerLabel ?? UILabel()
-		switch gameModes[row] {
+	@IBAction func changeGameMode(_ sender: UIButton) {
+		currentRow += 1
+		currentRow %= 3
+		switch gameModes[currentRow] {
                         case "me":
                             selectedGameMode = GameMode.SinglePlayer
                         case "local":
@@ -58,16 +58,8 @@ class MenuScreenViewController: UIViewController, UIPickerViewDelegate, UIPicker
                         default:
                             _ = true
                 }
-		pickerLabel?.text = gameModes[row]
-		pickerLabel?.textColor = UIColor.white
-		pickerLabel?.font = UIFont(name: "HelveticaNeue", size: 45.0)
-		pickerLabel?.textAlignment = NSTextAlignment.center
-//		gameTypePickerView.subviews[0].isHidden = true
-		return pickerLabel!
+		displayGameModelbl.text = "Play." + gameModes[currentRow]
 	}
-
-
-
 
     /*
     // MARK: - Navigation

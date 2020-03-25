@@ -51,7 +51,7 @@ class ViewController: UIViewController {
 		//Gets the buttons from the stackView and transfers them to an array
 		getButtonsFromStackView()
 		
-		gameBackgroundView.layer.contents = (BACKGROUND_IMAGE).cgImage
+//		gameBackgroundView.layer.contents = (BACKGROUND_IMAGE).cgImage
 		flipBoardSwitch.isSelected = false
 		flipBoardSwitch.setOn(false, animated: true)
 		GAMEBOARD = Board(userChessBoard: userChessBoard, verticalStackView: verticalStackView)
