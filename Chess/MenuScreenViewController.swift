@@ -11,8 +11,7 @@ import UIKit
 let INTRO_BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(3)")!
 let DECORATION_IMAGE = UIImage(named: "DecorationImage(3)")
 var selectedGameMode = GameMode.SinglePlayer
-let quoteAttribute = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 40), NSAttributedString.Key.foregroundColor : UIColor.white]
-let nameAttribute = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 40), NSAttributedString.Key.foregroundColor : UIColor.white]
+let PINK_COLOR = UIColor.init(displayP3Red: 249/255.0, green: 214/255.0, blue: 215/255.0, alpha: 1)
 extension NSMutableAttributedString {
 	func setColorForText(_ textToFind: String, with color: UIColor) {
 		let range = self.mutableString.range(of: textToFind, options: .caseInsensitive)
@@ -48,12 +47,13 @@ class MenuScreenViewController: UIViewController {
 		
 		
 		playButton.clipsToBounds = true
-		playButton.layer.cornerRadius = 20
-		playButton.layer.backgroundColor = UIColor.black.cgColor
-//		playButton.layer.borderWidth = 3
+		playButton.layer.cornerRadius = 30
+		playButton.layer.backgroundColor = PINK_COLOR.cgColor
+		playButton.layer.borderWidth = 20
+		playButton.layer.borderColor = UIColor.white.cgColor
 		
 //		displayGameModelbl.layer.backgroundColor = UIColor.lightGray.cgColor
-		displayGameModelbl.layer.borderColor = UIColor.black.cgColor
+//		displayGameModelbl.layer.borderColor = UIColor.black.cgColor
 		displayGameModelbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 57)
 		let text = NSMutableAttributedString(string: "Play.me")
 		text.setColorForText("Play", with: UIColor.white)
