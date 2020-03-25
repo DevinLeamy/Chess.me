@@ -11,7 +11,16 @@ import UIKit
 let INTRO_BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(3)")!
 let DECORATION_IMAGE = UIImage(named: "DecorationImage(3)")
 var selectedGameMode = GameMode.SinglePlayer
-
+let quoteAttribute = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 40), NSAttributedString.Key.foregroundColor : UIColor.white]
+let nameAttribute = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 40), NSAttributedString.Key.foregroundColor : UIColor.white]
+extension NSMutableAttributedString {
+	func setColorForText(_ textToFind: String, with color: UIColor) {
+		let range = self.mutableString.range(of: textToFind, options: .caseInsensitive)
+		if range.location != NSNotFound {
+			addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
+		}
+	}
+}
 class MenuScreenViewController: UIViewController {
 	
 	@IBOutlet var decorationImage: UIImageView!
@@ -20,13 +29,16 @@ class MenuScreenViewController: UIViewController {
 	@IBOutlet var playButton: UIButton!
 	@IBOutlet var introBackgroundView: UIView!
 	@IBOutlet var displayGameModelbl: UILabel!
+	@IBOutlet var displayQuotelbl: UILabel!
 	var gameModes: [String] = [String]()
+	var chessQuotes: [[String]] = [[String]]()
 	var currentRow = 0
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 //		introHeaderlbl.layer.backgroundColor = UIColor.lightGray.cgColor
 		introHeaderlbl.layer.borderColor = UIColor.black.cgColor
+		introHeaderlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 90)
 //		introHeaderlbl.layer.borderWidth = 5
 		
 		introBackgroundView.layer.contents = (INTRO_BACKGROUND_IMAGE).cgImage
@@ -37,16 +49,33 @@ class MenuScreenViewController: UIViewController {
 		
 		playButton.clipsToBounds = true
 		playButton.layer.cornerRadius = 20
-		playButton.layer.backgroundColor = UIColor.white.cgColor
+		playButton.layer.backgroundColor = UIColor.black.cgColor
 //		playButton.layer.borderWidth = 3
 		
 //		displayGameModelbl.layer.backgroundColor = UIColor.lightGray.cgColor
 		displayGameModelbl.layer.borderColor = UIColor.black.cgColor
+		displayGameModelbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 57)
+		let text = NSMutableAttributedString(string: "Play.me")
+		text.setColorForText("Play", with: UIColor.white)
+		text.setColorForText(".me", with: UIColor.black)
+		displayGameModelbl.attributedText = text
 //		displayGameModelbl.layer.borderWidth = 2
 		
-		decorationImage.image = DECORATION_IMAGE
+		decorationImage.image = DECORATION_IMAGE //X = 11, Y = 179
+		
+		displayQuotelbl.textColor = UIColor.black
+		displayQuotelbl.font = UIFont(name: "HelveticaNeue-LightItalic", size: 20)
+		displayQuotelbl.lineBreakMode = NSLineBreakMode.byWordWrapping
+		displayQuotelbl.numberOfLines = 3
 		
                 gameModes = ["me", "online", "local"]
+		
+		chessQuotes = [
+			["Chess is a beautiful mistress.", "Bent Larsen"],
+			["Chess demands total concentration.", "Bobby Fisher"],
+			["Chess is everything: art, science and sport.", "Anatoly Karpov"]
+		]
+		setRandomQuote() //Puts and formats a random quote in the quoteDisplaylbl
 	}
     
 	
@@ -68,7 +97,10 @@ class MenuScreenViewController: UIViewController {
                         default:
                             _ = true
                 }
-		displayGameModelbl.text = "Play." + gameModes[currentRow]
+		let text = NSMutableAttributedString(string: "Play." + gameModes[currentRow])
+		text.setColorForText("Play", with: UIColor.white)
+		text.setColorForText("." + gameModes[currentRow], with: UIColor.black)
+		displayGameModelbl.attributedText = text
 	}
 	
 	@IBAction func showGameViewController(_ sender: UIButton) {
@@ -80,6 +112,14 @@ class MenuScreenViewController: UIViewController {
 	
 	@IBAction func hoverPlayButton(_ sender: UIButton) {
 		sender.alpha = 0.5
+	}
+	
+	func setRandomQuote() ->  Void {
+		let randomInt = Int.random(in: 0..<chessQuotes.count)
+		let name = chessQuotes[randomInt][1]
+		let quote = chessQuotes[randomInt][0]
+		displayQuotelbl.text = "\"" + quote + "\"" + "      -" + name
+//		let text = NSMutableAttributeString
 	}
 	
 
