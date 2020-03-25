@@ -8,11 +8,13 @@
 
 import UIKit
 
-let INTRO_BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(4)")!
+let INTRO_BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(3)")!
+let DECORATION_IMAGE = UIImage(named: "DecorationImage(3)")
 var selectedGameMode = GameMode.SinglePlayer
 
 class MenuScreenViewController: UIViewController {
 	
+	@IBOutlet var decorationImage: UIImageView!
 	@IBOutlet var changeGameModebtn: UIButton!
 	@IBOutlet var introHeaderlbl: UILabel!
 	@IBOutlet var playButton: UIButton!
@@ -23,28 +25,36 @@ class MenuScreenViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		introHeaderlbl.layer.backgroundColor = UIColor.lightGray.cgColor
+//		introHeaderlbl.layer.backgroundColor = UIColor.lightGray.cgColor
 		introHeaderlbl.layer.borderColor = UIColor.black.cgColor
-		introHeaderlbl.layer.borderWidth = 5
+//		introHeaderlbl.layer.borderWidth = 5
 		
 		introBackgroundView.layer.contents = (INTRO_BACKGROUND_IMAGE).cgImage
 		
-		changeGameModebtn.layer.cornerRadius = 10
+		changeGameModebtn.layer.cornerRadius = 20
+		changeGameModebtn.layer.backgroundColor = UIColor.white.cgColor
 		
 		
 		playButton.clipsToBounds = true
-		playButton.layer.cornerRadius = 10
-		playButton.layer.backgroundColor = UIColor.lightGray.cgColor
+		playButton.layer.cornerRadius = 20
+		playButton.layer.backgroundColor = UIColor.white.cgColor
+//		playButton.layer.borderWidth = 3
 		
-		displayGameModelbl.layer.backgroundColor = UIColor.lightGray.cgColor
+//		displayGameModelbl.layer.backgroundColor = UIColor.lightGray.cgColor
 		displayGameModelbl.layer.borderColor = UIColor.black.cgColor
-		displayGameModelbl.layer.borderWidth = 1
+//		displayGameModelbl.layer.borderWidth = 2
+		
+		decorationImage.image = DECORATION_IMAGE
 		
                 gameModes = ["me", "online", "local"]
 	}
     
 	
+	@IBAction func hoverDisplay(_ sender: UIButton) {
+		sender.alpha = 0.5
+	}
 	@IBAction func changeGameMode(_ sender: UIButton) {
+		sender.alpha = 1
 		currentRow += 1
 		currentRow %= 3
 		switch gameModes[currentRow] {
@@ -60,6 +70,18 @@ class MenuScreenViewController: UIViewController {
                 }
 		displayGameModelbl.text = "Play." + gameModes[currentRow]
 	}
+	
+	@IBAction func showGameViewController(_ sender: UIButton) {
+		sender.alpha = 1
+		let storyboard = UIStoryboard(name: "Main", bundle: nil)
+		let secondVC = storyboard.instantiateViewController(identifier: "gameViewController")
+		show(secondVC, sender: self)
+	}
+	
+	@IBAction func hoverPlayButton(_ sender: UIButton) {
+		sender.alpha = 0.5
+	}
+	
 
     /*
     // MARK: - Navigation

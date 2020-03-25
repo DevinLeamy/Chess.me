@@ -25,11 +25,13 @@ let BLACK_PAWN_IMAGE = UIImage(named: "BlackPawn")!
 let BLANK_IMAGE = UIImage(named: "Blank")!
 let RED_TILE_IMAGE = UIImage(named: "RedTile")!
 let BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(3)")!
-let RETRY_LOGO_IMAGE = UIImage(named: "WhiteRetryLogo")!
+let RETRY_LOGO_IMAGE = UIImage(named: "RetryLogo(1)")!
+let VISITED_TILE_IMAGE = UIImage(named: "DarkWoodTile(3)")
 
 class ViewController: UIViewController {
 	//Outlets
 	@IBOutlet var retryBtn: UIButton!
+	@IBOutlet var flipBoardlbl: UIButton!
 	@IBOutlet var flipBoardSwitch: UISwitch!
 	@IBOutlet var gameBackgroundView: UIView!
 	@IBOutlet var displayWinnerlbl: UILabel!
@@ -60,11 +62,17 @@ class ViewController: UIViewController {
 		BLACK = GAME.getBlack()
 		GAMEBOARD.setNextMoves()
 		//Initialize Retry Button
-		retryBtn.widthAnchor.constraint(equalToConstant: 50).isActive = true
-		retryBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
+		retryBtn.widthAnchor.constraint(equalToConstant: 30).isActive = true
+		retryBtn.heightAnchor.constraint(equalToConstant: 30).isActive = true
 		retryBtn.setBackgroundImage(RETRY_LOGO_IMAGE, for: UIControl.State.normal)
 		
 		initializeGameBoard()
+		
+		flipBoardlbl.setTitleColor(UIColor.white, for: UIControl.State.normal)
+		flipBoardlbl.layer.cornerRadius = 10
+		flipBoardlbl.layer.backgroundColor = UIColor.lightGray.cgColor
+		flipBoardlbl.layer.borderColor = UIColor.black.cgColor
+		flipBoardlbl.layer.borderWidth = 1
 	}
 	func getButtonsFromStackView() -> Void {
 		for case let horizontalStackView as UIStackView in verticalStackView.arrangedSubviews {
@@ -203,7 +211,7 @@ class ViewController: UIViewController {
 			let pieceSelected = GAMEBOARD.board[selectedTile[0]][selectedTile[1]]
 			for move in pieceSelected.getNextMoves() {
 				if move.count == 0 {continue}
-				GAMEBOARD.userChessBoard[move[0]][move[1]].alpha = 0.25
+				GAMEBOARD.userChessBoard[move[0]][move[1]].setBackgroundImage(VISITED_TILE_IMAGE, for: UIControl.State.normal)
 			}
 		}
 	}

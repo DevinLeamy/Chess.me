@@ -262,12 +262,12 @@ class Board {
 	
 	func drawPathFrom(row: Int, col: Int, toRow newRow: Int, andCol newCol: Int) {
 		if lastPieceToMove.getType() == Pieces.Knight {
-			userChessBoard[row][col].alpha = 0.25
+			userChessBoard[row][col].setBackgroundImage(VISITED_TILE_IMAGE, for: UIControl.State.normal)
 		} else {
 			var currentRow = row
 			var currentCol = col
 			repeat {
-				userChessBoard[currentRow][currentCol].alpha = 0.25
+				userChessBoard[currentRow][currentCol].setBackgroundImage(VISITED_TILE_IMAGE, for: UIControl.State.normal)
 				if currentRow != newRow {
 					if currentRow > newRow {
 						currentRow -= 1
