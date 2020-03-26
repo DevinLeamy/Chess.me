@@ -10,7 +10,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="gameViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="Chess" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="gameViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="Chess_me" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -451,12 +451,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d0R-SX-U4K">
-                                <rect key="frame" x="207" y="64" width="0.0" height="0.0"/>
-                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="30"/>
-                                <color key="textColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Bg-hj-hK4">
                                 <rect key="frame" x="20" y="208" width="96" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
@@ -472,8 +466,6 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="wmP-KO-xYh" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="BDB-iu-QaH"/>
-                            <constraint firstItem="d0R-SX-U4K" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="BUi-86-tq3"/>
-                            <constraint firstItem="d0R-SX-U4K" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="MSK-CC-jVW"/>
                             <constraint firstItem="4Bg-hj-hK4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="164" id="RIC-RY-dc3"/>
                             <constraint firstItem="wmP-KO-xYh" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="pj9-rp-YJP"/>
                         </constraints>
@@ -483,7 +475,6 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="blackScorelbl" destination="4Bg-hj-hK4" id="5jn-EV-hAA"/>
-                        <outlet property="displayWinnerlbl" destination="d0R-SX-U4K" id="A7b-BU-fnd"/>
                         <outlet property="gameBackgroundView" destination="8bC-Xf-vdC" id="zXj-2H-UNJ"/>
                         <outlet property="toolBar" destination="Ue9-0j-tgO" id="iR6-1u-jkd"/>
                         <outlet property="verticalStackView" destination="wmP-KO-xYh" id="w8f-ku-Sdv"/>
@@ -497,7 +488,7 @@
         <!--Menu Screen View Controller-->
         <scene sceneID="lDa-Ae-Xad">
             <objects>
-                <viewController id="7pV-ev-Pt4" customClass="MenuScreenViewController" customModule="Chess" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="menuViewController" id="7pV-ev-Pt4" customClass="MenuScreenViewController" customModule="Chess_me" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleAspectFit" id="PYx-he-XWe">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

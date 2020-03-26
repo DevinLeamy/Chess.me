@@ -33,7 +33,6 @@ class ViewController: UIViewController {
 	//Outlets
 	@IBOutlet var toolBar: UIToolbar!
 	@IBOutlet var gameBackgroundView: UIView!
-	@IBOutlet var displayWinnerlbl: UILabel!
 	@IBOutlet var blackScorelbl: UILabel!
 	@IBOutlet var whiteScorelbl: UILabel!
 	@IBOutlet var verticalStackView: UIStackView!
@@ -47,7 +46,6 @@ class ViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		displayWinnerlbl.text = "WHITE TO MOVE"
 		
 		//Gets the buttons from the stackView and transfers them to an array
 		getButtonsFromStackView()
@@ -195,17 +193,19 @@ class ViewController: UIViewController {
 				GAMEBOARD.userChessBoard[kingRow][kingCol].setBackgroundImage(RED_TILE_IMAGE, for: UIControl.State.normal)
 			}
 		}
-		
-		if GAMEBOARD.turn == Side.White {
-			displayWinnerlbl.text = "WHITE TO MOVE"
-		} else {
-			displayWinnerlbl.text = "BLACK TO MOVE"
-		}
 		GAMEBOARD.redrawboard()
 		
 		if GAME.gameIsOver() {
 			let gameResultInfo = GAME.getGameResult()
-			displayWinnerlbl.text = (gameResultInfo[0] as! String)
+			
+			let alert = UIAlertController(title: "GameOver", message: (gameResultInfo[0] as! String), preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+				let storyboard = UIStoryboard(name: "Main", bundle: nil)
+				let secondVC = storyboard.instantiateViewController(identifier: "menuViewController")
+				self.show(secondVC, sender: nil)
+				self.restartGame()
+			}))
+			self.present(alert, animated: true, completion: nil)
 			print(gameResultInfo[0])
 		}
 		
@@ -290,7 +290,6 @@ class ViewController: UIViewController {
 		whiteScorelbl.text = ""
 		blackScorelbl.text = ""
 		GAMEBOARD.flipBoard(bottom: Side.White)
-		displayWinnerlbl.text = "WHITE TO MOVE"
 		GAMEBOARD.redrawboard()
 	}
 	
