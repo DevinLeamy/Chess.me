@@ -4,10 +4,10 @@ NOTE: I will be adding multiplayer [Bluetooth, Wifi and Cellular] features.
 
 # Deployment
 1. > Clone the repo <br/>
-2. > [In terminal] Type: sudo gem install cocoapods <br/>
+2. > [In terminal] sudo gem install cocoapods <br/>
 3. > [In terminal] Navigate to project folder; the one with the Chess.xcworkspace <br/>
-4. > [In terminal] Type: pod deintegrate <br/>
-5. > [In terminal] Type: pod install <br/>
+4. > [In terminal] pod deintegrate <br/>
+5. > [In terminal] pod install <br/>
 6. > Launch Xcode <br/>
 7. > Open Existing Project > Open Chess.xcworkspace <br/>
 8. > [⌘ + SHIFT + K] or > Product > Clean <br/>
