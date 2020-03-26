@@ -49,6 +49,6 @@ enum GameWon {
 enum GameMode {
         case SinglePlayer //Versus computer
         case Multiplayer //Online
-        case LocalMultiplayer //Bluetooth games
-        // case TwoPlayersOnOneDevice
+        case BluetoothMultiplayer //Bluetooth games
+        case LocalMultiplayer //Two people play game on one device
 }

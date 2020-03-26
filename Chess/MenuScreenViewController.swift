@@ -54,7 +54,7 @@ class MenuScreenViewController: UIViewController {
 		
 //		displayGameModelbl.layer.backgroundColor = UIColor.lightGray.cgColor
 //		displayGameModelbl.layer.borderColor = UIColor.black.cgColor
-		displayGameModelbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 57)
+		displayGameModelbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 50)
 		let text = NSMutableAttributedString(string: "Play.me")
 		text.setColorForText("Play", with: UIColor.white)
 		text.setColorForText(".me", with: UIColor.black)
@@ -68,7 +68,7 @@ class MenuScreenViewController: UIViewController {
 		displayQuotelbl.lineBreakMode = NSLineBreakMode.byWordWrapping
 		displayQuotelbl.numberOfLines = 3
 		
-                gameModes = ["me", "online", "local"]
+                gameModes = ["me", "online", "bluetooth", "couple"]
 		
 		chessQuotes = [
 			["Chess is a beautiful mistress.", "Bent Larsen"],
@@ -85,15 +85,16 @@ class MenuScreenViewController: UIViewController {
 	@IBAction func changeGameMode(_ sender: UIButton) {
 		sender.alpha = 1
 		currentRow += 1
-		currentRow %= 3
+		currentRow %= gameModes.count
 		switch gameModes[currentRow] {
-                        case "me":
+                        case gameModes[0]:
                             selectedGameMode = GameMode.SinglePlayer
-                        case "local":
-                            selectedGameMode = GameMode.LocalMultiplayer
-                        case "online":
+                        case gameModes[1]:
+                            selectedGameMode = GameMode.BluetoothMultiplayer
+                        case gameModes[2]:
                             selectedGameMode = GameMode.Multiplayer
-                        //Add case where you are player two player on one device
+			case gameModes[3]:
+				selectedGameMode = GameMode.LocalMultiplayer
                         default:
                             _ = true
                 }
