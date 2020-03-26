@@ -17,6 +17,7 @@ class Board {
 	var verticalStackView: UIStackView
 	var lastMove: [Int] = []
 	var lastPieceToMove: Piece!
+	var theme: Theme = Theme.Rustic
 	init(userChessBoard: [[UIButton]], verticalStackView: UIStackView?) {
 		if (verticalStackView != nil) {
 			self.verticalStackView = verticalStackView!
@@ -239,9 +240,17 @@ class Board {
 			var current = isWhite
 			for j in 0..<8 {
 				if current {
-					userChessBoard[i][j].setBackgroundImage(WHITE_TILE_IMAGE, for: UIControl.State.normal)
+					if theme == Theme.Rustic {
+						userChessBoard[i][j].setBackgroundImage(WHITE_TILE_IMAGE, for: UIControl.State.normal)
+					} else {
+						userChessBoard[i][j].backgroundColor = UIColor.white
+					}
 				} else {
-					userChessBoard[i][j].setBackgroundImage(BLACK_TILE_IMAGE, for: UIControl.State.normal)
+					if theme == Theme.Rustic {
+						userChessBoard[i][j].setBackgroundImage(BLACK_TILE_IMAGE, for: UIControl.State.normal)
+					} else {
+						userChessBoard[i][j].backgroundColor = PINK_COLOR
+					}
 				}
 				userChessBoard[i][j].alpha = 1.0
 				current = !current
@@ -262,12 +271,20 @@ class Board {
 	
 	func drawPathFrom(row: Int, col: Int, toRow newRow: Int, andCol newCol: Int) {
 		if lastPieceToMove.getType() == Pieces.Knight {
-			userChessBoard[row][col].setBackgroundImage(VISITED_TILE_IMAGE, for: UIControl.State.normal)
+			if theme == Theme.Rustic {
+				userChessBoard[row][col].setBackgroundImage(VISITED_TILE_IMAGE, for: UIControl.State.normal)
+			} else {
+				userChessBoard[row][col].backgroundColor = UIColor.lightGray
+			}
 		} else {
 			var currentRow = row
 			var currentCol = col
 			repeat {
-				userChessBoard[currentRow][currentCol].setBackgroundImage(VISITED_TILE_IMAGE, for: UIControl.State.normal)
+				if theme == Theme.Rustic {
+					userChessBoard[currentRow][currentCol].setBackgroundImage(VISITED_TILE_IMAGE, for: UIControl.State.normal)
+				} else {
+					userChessBoard[currentRow][currentCol].backgroundColor = UIColor.lightGray
+				}
 				if currentRow != newRow {
 					if currentRow > newRow {
 						currentRow -= 1

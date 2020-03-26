@@ -52,3 +52,8 @@ enum GameMode {
         case BluetoothMultiplayer //Bluetooth games
         case LocalMultiplayer //Two people play game on one device
 }
+
+enum Theme {
+	case Modern
+	case Rustic
+}

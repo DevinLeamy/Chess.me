@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="wmP-KO-xYh">
-                                <rect key="frame" x="87" y="317" width="240" height="272"/>
+                                <rect key="frame" x="87" y="292.5" width="240" height="272"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="agX-hr-0O3">
                                         <rect key="frame" x="0.0" y="0.0" width="240" height="34"/>
@@ -444,16 +444,6 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oHW-ek-wnl">
-                                <rect key="frame" x="355" y="64" width="30" height="42"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <state key="normal">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                </state>
-                                <connections>
-                                    <action selector="restartGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qSs-Sh-z7D"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1l1-TI-6lb">
                                 <rect key="frame" x="20" y="647" width="96" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -461,16 +451,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CwV-ud-4oa">
-                                <rect key="frame" x="20" y="810" width="108" height="42"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <state key="normal" title="Flip Board">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="flipBoardAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yg5-Wh-2cv"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d0R-SX-U4K">
                                 <rect key="frame" x="207" y="64" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="30"/>
@@ -483,12 +463,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xbj-Q3-fDP">
-                                <rect key="frame" x="136" y="816" width="51" height="31"/>
-                                <connections>
-                                    <action selector="flipBoardSwitchAction:" destination="BYZ-38-t0r" eventType="valueChanged" id="Die-fX-Ejq"/>
-                                </connections>
-                            </switch>
+                            <toolbar autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ue9-0j-tgO">
+                                <rect key="frame" x="0.0" y="813" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items/>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -496,22 +475,17 @@
                             <constraint firstItem="d0R-SX-U4K" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="BUi-86-tq3"/>
                             <constraint firstItem="d0R-SX-U4K" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="MSK-CC-jVW"/>
                             <constraint firstItem="4Bg-hj-hK4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="164" id="RIC-RY-dc3"/>
-                            <constraint firstItem="Xbj-Q3-fDP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="136" id="Zbg-yt-RWc"/>
-                            <constraint firstItem="Xbj-Q3-fDP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="772" id="aJ8-Df-egh"/>
-                            <constraint firstItem="oHW-ek-wnl" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="de1-zy-2Z0"/>
-                            <constraint firstItem="CwV-ud-4oa" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="766" id="gfT-XC-4zv"/>
                             <constraint firstItem="wmP-KO-xYh" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="pj9-rp-YJP"/>
-                            <constraint firstItem="oHW-ek-wnl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="355" id="z8u-LC-Kce"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="blackScorelbl" destination="4Bg-hj-hK4" id="5jn-EV-hAA"/>
                         <outlet property="displayWinnerlbl" destination="d0R-SX-U4K" id="A7b-BU-fnd"/>
-                        <outlet property="flipBoardSwitch" destination="Xbj-Q3-fDP" id="adC-a7-RJ9"/>
-                        <outlet property="flipBoardlbl" destination="CwV-ud-4oa" id="Zho-rN-Hv4"/>
                         <outlet property="gameBackgroundView" destination="8bC-Xf-vdC" id="zXj-2H-UNJ"/>
-                        <outlet property="retryBtn" destination="oHW-ek-wnl" id="sVb-aX-630"/>
+                        <outlet property="toolBar" destination="Ue9-0j-tgO" id="iR6-1u-jkd"/>
                         <outlet property="verticalStackView" destination="wmP-KO-xYh" id="w8f-ku-Sdv"/>
                         <outlet property="whiteScorelbl" destination="1l1-TI-6lb" id="Toj-Vm-Vv9"/>
                     </connections>

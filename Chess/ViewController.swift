@@ -27,12 +27,11 @@ let RED_TILE_IMAGE = UIImage(named: "RedTile")!
 let BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(3)")!
 let RETRY_LOGO_IMAGE = UIImage(named: "RetryLogo(1)")!
 let VISITED_TILE_IMAGE = UIImage(named: "DarkWoodTile(3)")
+let FLIPBOARD_LOGO_IMAGE = UIImage(named: "FlipLogo(2)")!
 
 class ViewController: UIViewController {
 	//Outlets
-	@IBOutlet var retryBtn: UIButton!
-	@IBOutlet var flipBoardlbl: UIButton!
-	@IBOutlet var flipBoardSwitch: UISwitch!
+	@IBOutlet var toolBar: UIToolbar!
 	@IBOutlet var gameBackgroundView: UIView!
 	@IBOutlet var displayWinnerlbl: UILabel!
 	@IBOutlet var blackScorelbl: UILabel!
@@ -52,27 +51,47 @@ class ViewController: UIViewController {
 		
 		//Gets the buttons from the stackView and transfers them to an array
 		getButtonsFromStackView()
-		
+	
 		gameBackgroundView.layer.contents = (BACKGROUND_IMAGE).cgImage
-		flipBoardSwitch.isSelected = false
-		flipBoardSwitch.setOn(false, animated: true)
 		GAMEBOARD = Board(userChessBoard: userChessBoard, verticalStackView: verticalStackView)
 		GAME = Game(white: Team(side: Side.White), black: Team(side: Side.Black), board: GAMEBOARD)
 		WHITE = GAME.getWhite()
 		BLACK = GAME.getBlack()
 		GAMEBOARD.setNextMoves()
-		//Initialize Retry Button
-		retryBtn.widthAnchor.constraint(equalToConstant: 30).isActive = true
-		retryBtn.heightAnchor.constraint(equalToConstant: 30).isActive = true
-		retryBtn.setBackgroundImage(RETRY_LOGO_IMAGE, for: UIControl.State.normal)
 		
 		initializeGameBoard()
+//		
+//		let spacer = UIBarButtonItem(
+//			barButtonSystemItem: .flexibleSpace,
+//			target: nil,
+//			action: nil
+//		)
 		
-		flipBoardlbl.setTitleColor(UIColor.white, for: UIControl.State.normal)
-		flipBoardlbl.layer.cornerRadius = 10
-		flipBoardlbl.layer.backgroundColor = UIColor.lightGray.cgColor
-		flipBoardlbl.layer.borderColor = UIColor.black.cgColor
-		flipBoardlbl.layer.borderWidth = 1
+		let flipBoardBarBtn = UIBarButtonItem(
+			image: FLIPBOARD_LOGO_IMAGE,
+			style: UIBarButtonItem.Style.plain,
+			target: self,
+			action: #selector(flipBoardAction)
+		)
+		flipBoardBarBtn.tintColor = UIColor.black
+		
+//		
+//		let retryBarBtn = UIBarButtonItem(
+//			image: RETRY_LOGO_IMAGE,
+//			style: UIBarButtonItem.Style.plain,
+//			target: self,
+//			action: #selector(restartGame)
+//		)
+//		retryBarBtn.tintColor = UIColor.black
+	
+		
+		toolBar.items = [
+			flipBoardBarBtn
+//			,spacer,
+//			retryBarBtn
+		]
+		toolBar.sizeToFit()
+		
 	}
 	func getButtonsFromStackView() -> Void {
 		for case let horizontalStackView as UIStackView in verticalStackView.arrangedSubviews {
@@ -82,10 +101,6 @@ class ViewController: UIViewController {
 			}
 			userChessBoard.append(buttonRow)
 		}
-	}
-	
-	@IBAction func flipBoardSwitchAction(_ sender: UISwitch) {
-		flipBoardSwitch.isSelected = !flipBoardSwitch.isSelected
 	}
 	@objc func tileClicked(_ sender: UIButton) {
 		//If the game is over don't allow player to change
@@ -157,7 +172,7 @@ class ViewController: UIViewController {
 				GAMEBOARD.userChessBoard[row][col].setImage(GAMEBOARD.getImageFor(piece: pieceBeingMoved), for: UIControl.State.normal)
 				GAMEBOARD.userChessBoard[oldRow][oldCol].setImage(BLANK_IMAGE, for: UIControl.State.normal)
 				GAMEBOARD.changeTurn()
-				if flipBoardSwitch.isSelected {
+				if selectedGameMode == GameMode.LocalMultiplayer {
 					GAMEBOARD.flipBoard(bottom: GAMEBOARD.getTurn())
 				}
 				let king = GAMEBOARD.getKing(side: GAMEBOARD.getTurn())! as! King //King is not found app will crash
@@ -211,7 +226,11 @@ class ViewController: UIViewController {
 			let pieceSelected = GAMEBOARD.board[selectedTile[0]][selectedTile[1]]
 			for move in pieceSelected.getNextMoves() {
 				if move.count == 0 {continue}
-				GAMEBOARD.userChessBoard[move[0]][move[1]].setBackgroundImage(VISITED_TILE_IMAGE, for: UIControl.State.normal)
+				if GAMEBOARD.theme == Theme.Rustic {
+					GAMEBOARD.userChessBoard[move[0]][move[1]].setBackgroundImage(VISITED_TILE_IMAGE, for: UIControl.State.normal)
+				} else {
+					GAMEBOARD.userChessBoard[move[0]][move[1]].backgroundColor = UIColor.lightGray
+				}
 			}
 		}
 	}
@@ -234,9 +253,17 @@ class ViewController: UIViewController {
 				
 				let buttonImage = GAMEBOARD.getImageFor(piece: GAMEBOARD.board[i][j])
 				if (current) {
-					GAMEBOARD.userChessBoard[i][j].setBackgroundImage(WHITE_TILE_IMAGE, for: UIControl.State.normal)
+					if GAMEBOARD.theme == Theme.Rustic {
+						GAMEBOARD.userChessBoard[i][j].setBackgroundImage(WHITE_TILE_IMAGE, for: UIControl.State.normal)
+					} else {
+						GAMEBOARD.userChessBoard[i][j].backgroundColor = UIColor.white
+					}
 				} else {
-					GAMEBOARD.userChessBoard[i][j].setBackgroundImage(BLACK_TILE_IMAGE, for: UIControl.State.normal)
+					if GAMEBOARD.theme == Theme.Rustic {
+						GAMEBOARD.userChessBoard[i][j].setBackgroundImage(BLACK_TILE_IMAGE, for: UIControl.State.normal)
+					} else {
+						GAMEBOARD.userChessBoard[i][j].backgroundColor = PINK_COLOR
+					}
 				}
 				
 				//Sets the background image
@@ -253,7 +280,7 @@ class ViewController: UIViewController {
 		return [tag/8, tag % 8]
 	}
 	
-	@IBAction func restartGame(_ sender: UIButton) {
+	@objc func restartGame() {
 		GAMEBOARD = Board(userChessBoard: userChessBoard, verticalStackView: verticalStackView)
 		GAME = Game(white: Team(side: Side.White), black: Team(side: Side.Black), board: GAMEBOARD)
 		WHITE = GAME.getWhite()
@@ -267,7 +294,7 @@ class ViewController: UIViewController {
 		GAMEBOARD.redrawboard()
 	}
 	
-	@IBAction func flipBoardAction(_ sender: UIButton) {
+	@objc func flipBoardAction() {
 		if GAMEBOARD.currentBottom == Side.White {
 			GAMEBOARD.flipBoard(bottom: Side.Black)
 		} else {
