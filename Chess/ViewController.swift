@@ -30,7 +30,7 @@ let RETRY_LOGO_IMAGE = UIImage(named: "RetryLogo(1)")!
 let VISITED_TILE_IMAGE = UIImage(named: "DarkWoodTile(3)")
 let FLIPBOARD_LOGO_IMAGE = UIImage(named: "FlipLogo(2)")!
 
-class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
+class ViewController: UIViewController {
 	//Outlets
 	@IBOutlet var toolBar: UIToolbar!
 	@IBOutlet var gameBackgroundView: UIView!
@@ -44,6 +44,7 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
 	var BLACK: Team = Team(side: Side.Blank)
 	var tileSelected = false
 	var selectedTile = [-1, -1]
+	var mySide = Side.White //Default
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -90,6 +91,15 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
 //			retryBarBtn
 		]
 		toolBar.sizeToFit()
+		toolBar.barTintColor = UIColor.white
+		
+		if selectedGameMode == GameMode.BluetoothMultiplayer {
+			if isHost {
+				mySide = Side.White
+			} else {
+				mySide = Side.Black
+			}
+		}
 		
 	}
 	func getButtonsFromStackView() -> Void {
@@ -104,6 +114,8 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
 	@objc func tileClicked(_ sender: UIButton) {
 		//If the game is over don't allow player to change
 		if GAME.gameState == GameState.Finished {
+			return
+		} else if selectedGameMode == GameMode.BluetoothMultiplayer && mySide != GAMEBOARD.getTurn() {
 			return
 		}
 		let position = getPositionByTag(tag: sender.tag)
@@ -127,61 +139,7 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
 			}
 			
 			//One tile has already been selected
-			let oldRow = selectedTile[0]
-			let oldCol = selectedTile[1]
-			var pieceBeingMoved = GAMEBOARD.board[oldRow][oldCol]
-			if GAMEBOARD.makeMove(oldRow: oldRow, oldCol: oldCol, newRow: row, newCol: col, white: WHITE, black: BLACK, buttonChessBoard: userChessBoard) {
-				if pieceBeingMoved.getType() == Pieces.Rook {
-					(pieceBeingMoved as! Rook).setCanCastle(canCastle: false)
-				} else if pieceBeingMoved.getType() == Pieces.King {
-					(pieceBeingMoved as! King).setCanCastle(canCastle: false)
-					if abs(oldCol - col) == 2 {
-						//Castled
-						if col > oldCol {
-							//King side
-							let rookBeingMoved = (GAMEBOARD.board[row][7] as! Rook)
-							rookBeingMoved.setPosition(currentRow: row, currentCol: col-1)
-							rookBeingMoved.setCanCastle(canCastle: false)
-							GAMEBOARD.board[row][col-1] = rookBeingMoved
-							GAMEBOARD.board[row][7] = Blank(currentRow: -1, currentCol: -1, side: Side.Blank, type: Pieces.Blank)
-							//Draw the rook in its new position
-							GAMEBOARD.userChessBoard[row][col-1].setImage(GAMEBOARD.getImageFor(piece: rookBeingMoved), for: UIControl.State.normal)
-							GAMEBOARD.userChessBoard[row][7].setImage(BLANK_IMAGE, for: UIControl.State.normal)
-						} else {
-							//Queen side
-							let rookBeingMoved = (GAMEBOARD.board[row][0] as! Rook)
-							rookBeingMoved.setPosition(currentRow: row, currentCol: col+1)
-							rookBeingMoved.setCanCastle(canCastle: false)
-							GAMEBOARD.board[row][col+1] = rookBeingMoved
-							GAMEBOARD.board[row][0] = Blank(currentRow: -1, currentCol: -1, side: Side.Blank, type: Pieces.Blank)
-							//Draw the rook in its new position
-							GAMEBOARD.userChessBoard[row][col+1].setImage(GAMEBOARD.getImageFor(piece: rookBeingMoved), for: UIControl.State.normal)
-							GAMEBOARD.userChessBoard[row][0].setImage(BLANK_IMAGE, for: UIControl.State.normal)
-						}
-					}
-				} else if pieceBeingMoved.getType() == Pieces.Pawn {
-					if abs(row - oldRow) == 2 {
-						(pieceBeingMoved as! Pawn).setMovedTwice(movedTwice: true)
-					} else if row == 0 || row == 7 {
-						pieceBeingMoved = Queen(currentRow: row, currentCol: col,  side: pieceBeingMoved.getSide(), type: Pieces.Queen)
-						GAMEBOARD.board[row][col] = pieceBeingMoved
-						GAMEBOARD.board[row][col].setNextMoves(board: GAMEBOARD)
-					}
-				}
-				GAMEBOARD.userChessBoard[row][col].setImage(GAMEBOARD.getImageFor(piece: pieceBeingMoved), for: UIControl.State.normal)
-				GAMEBOARD.userChessBoard[oldRow][oldCol].setImage(BLANK_IMAGE, for: UIControl.State.normal)
-				GAMEBOARD.changeTurn()
-				if selectedGameMode == GameMode.LocalMultiplayer {
-					GAMEBOARD.flipBoard(bottom: GAMEBOARD.getTurn())
-				}
-				let king = GAMEBOARD.getKing(side: GAMEBOARD.getTurn())! as! King //King is not found app will crash
-				let kingRow = king.getPosition()[0]
-				let kingCol = king.getPosition()[1]
-				if king.isInCheck(gameBoard: GAMEBOARD) {
-					GAMEBOARD.userChessBoard[kingRow][kingCol].setBackgroundImage(RED_TILE_IMAGE, for: UIControl.State.normal)
-				}
-				
-			}
+			GAMEBOARD.makeMove(oldRow: selectedTile[0], oldCol: selectedTile[1], row: row, col: col, white: WHITE, black: BLACK, buttonChessBoard: userChessBoard, uiViewController: self)
 			tileSelected = false
 			selectedTile = [-1, -1]
 		} else if GAMEBOARD.board[row][col].getSide() == turn {
@@ -204,6 +162,7 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
 				let storyboard = UIStoryboard(name: "Main", bundle: nil)
 				let secondVC = storyboard.instantiateViewController(identifier: "menuViewController")
 				self.show(secondVC, sender: nil)
+				//ADD: Disconnect the player from the bluetooth host or, if host, stop hosting
 				self.restartGame()
 			}))
 			self.present(alert, animated: true, completion: nil)
@@ -220,7 +179,6 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
 			whiteScorelbl.text = ""
 			blackScorelbl.text = ""
 		}
-		
 		
 		//Tints the tiles that can be traveled to
 		if tileSelected {
@@ -274,7 +232,6 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
 				currentTag += 1
 			}
 			isWhite = !isWhite
-			
 		}
 	}
 	func getPositionByTag(tag: Int) -> [Int] {
@@ -303,43 +260,25 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
 	}
 	
 	//MPConnectivity
-	func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-		  switch state {
-			  case MCSessionState.connected:
-			      print("Connected: \(peerID.displayName)")
-
-			  case MCSessionState.connecting:
-			      print("Connecting: \(peerID.displayName)")
-
-			  case MCSessionState.notConnected:
-			      print("Not Connected: \(peerID.displayName)")
-			@unknown default:
-				fatalError()
-			}
-	}
-	
+	//Receiving Date
 	func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-		
+		var move = Array<Int>(repeating: 0, count: data.count/MemoryLayout<Int>.stride)
+		_ = move.withUnsafeMutableBytes { data.copyBytes(to: $0) }
+		GAMEBOARD.makeMove(oldRow: move[0], oldCol: move[1], row: move[2], col: move[3], white: WHITE, black: BLACK, buttonChessBoard: userChessBoard, uiViewController: self)
 	}
 	
-	func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
-
-	}
-
-	func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
-
-	}
-
-	func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
-
-	}
-
-	func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
-		dismiss(animated: true)
-	}
-
-	func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
-		dismiss(animated: true)
+	func sendMove(move: [Int]) {
+		if mcSession.connectedPeers.count > 0 {
+			let moveData =  Data(buffer: UnsafeBufferPointer(start: move, count: move.count))
+			do {
+				try mcSession.send(moveData, toPeers: mcSession.connectedPeers, with: .reliable)
+			} catch let error as NSError {
+				let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
+				ac.addAction(UIAlertAction(title: "OK", style: .default))
+				present(ac, animated: true)
+			}
+			
+		}
 	}
 
 }

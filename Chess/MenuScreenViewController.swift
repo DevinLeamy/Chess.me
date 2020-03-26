@@ -24,7 +24,7 @@ extension NSMutableAttributedString {
 var peerID: MCPeerID!
 var mcSession: MCSession!
 var mcAdvertiserAssistant: MCAdvertiserAssistant!
-
+var isHost = false
 
 class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
 
@@ -55,12 +55,12 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		introBackgroundView.layer.contents = (INTRO_BACKGROUND_IMAGE).cgImage
 		
 		changeGameModebtn.layer.cornerRadius = 20
-		changeGameModebtn.layer.backgroundColor = UIColor.white.cgColor
+		changeGameModebtn.layer.backgroundColor = UIColor.black.cgColor //UIColor.white.cgColor // original color
 		
 		
 		playButton.clipsToBounds = true
 		playButton.layer.cornerRadius = 30
-		playButton.layer.backgroundColor = PINK_COLOR.cgColor
+		playButton.layer.backgroundColor = UIColor.black.cgColor //PINK_COLOR.cgColor // original color
 		playButton.layer.borderWidth = 20
 		playButton.layer.borderColor = UIColor.white.cgColor
 		
@@ -78,7 +78,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		displayQuotelbl.textColor = UIColor.black
 		displayQuotelbl.font = UIFont(name: "HelveticaNeue-LightItalic", size: 20)
 		displayQuotelbl.lineBreakMode = NSLineBreakMode.byWordWrapping
-		displayQuotelbl.numberOfLines = 3
+		displayQuotelbl.numberOfLines = 4
 		
                 gameModes = ["me", "bluetooth", "online", "couple"]
 		
@@ -88,7 +88,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 			["Chess is everything: art, science and sport.", "Anatoly Karpov"],
 			["It always starts with one move to bring down the king.", "Garry Kasprov"],
 			["Chess is like life, you don't want to waste a move.", "Bing Gordan"],
-			["Chess is war over the board. The object is to crush the opponents mind", "Boris Spassky"]
+			["Chess is war over the board. The object is to crush the opponent's mind", "Boris Spassky"]
 		]
 		setRandomQuote() //Puts and formats a random quote in the quoteDisplaylbl
 	}
@@ -106,19 +106,11 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 				selectedGameMode = GameMode.SinglePlayer
                         case gameModes[1]:
 				selectedGameMode = GameMode.BluetoothMultiplayer
-				
-				if mcSession.connectedPeers.count >= 1 {
-					let alert = UIAlertController(title: "Play.bluetooth", message: "Join a session", preferredStyle: .alert)
-					alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: joinSession))
-					alert.addAction(UIAlertAction(title: NSLocalizedString("NO", comment: "Default action"), style: .default, handler: nil))
-					self.present(alert, animated: true, completion: nil)
-				} else {
-					let alert = UIAlertController(title: "Play.bluetooth", message: "Host a session", preferredStyle: .alert)
-					alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: startHosting))
-					alert.addAction(UIAlertAction(title: NSLocalizedString("NO", comment: "Default action"), style: .default, handler: nil))
-					self.present(alert, animated: true, completion: nil)
-				}
-		
+				let alert = UIAlertController(title: "Play.bluetooth", message: "Join or Host a Game Session", preferredStyle: .alert)
+				alert.addAction(UIAlertAction(title: NSLocalizedString("Join", comment: "Default action"), style: .default, handler: joinSession))
+				alert.addAction(UIAlertAction(title: NSLocalizedString("Host", comment: "Default action"), style: .default, handler: startHosting))
+				alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Default action"), style: .cancel, handler: stopBluetooth))
+				self.present(alert, animated: true, completion: nil)
                         case gameModes[2]:
 				selectedGameMode = GameMode.Multiplayer
 			case gameModes[3]:
@@ -147,8 +139,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		let randomInt = Int.random(in: 0..<chessQuotes.count)
 		let name = chessQuotes[randomInt][1]
 		let quote = chessQuotes[randomInt][0]
-		displayQuotelbl.text = "\"" + quote + "\"" + "      -" + name
-//		let text = NSMutableAttributeString
+		displayQuotelbl.text = "\"" + quote + "\"" + "\n- " + name
 	}
 	
 	//MPConnectivity
@@ -192,14 +183,31 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	}
 	
 	func startHosting(action: UIAlertAction!) {
+		isHost = true
 		mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "hws-kb", discoveryInfo: nil, session: mcSession)
 		mcAdvertiserAssistant.start()
 	}
 
 	func joinSession(action: UIAlertAction!) {
+		isHost = false
 		let mcBrowser = MCBrowserViewController(serviceType: "hws-kb", session: mcSession)
 		mcBrowser.delegate = self
 		present(mcBrowser, animated: true)
+	}
+	
+	func stopBluetooth(_ : UIAlertAction?) {
+		isHost = false
+		selectedGameMode = GameMode.Multiplayer
+		currentRow = 2
+		
+		let text = NSMutableAttributedString(string: "Play." + gameModes[currentRow])
+		text.setColorForText("Play", with: UIColor.white)
+		text.setColorForText("." + gameModes[currentRow], with: UIColor.black)
+		displayGameModelbl.attributedText = text
+		
+		peerID = MCPeerID(displayName: UIDevice.current.name)
+		mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
+		mcSession.delegate = self
 	}
 
     /*

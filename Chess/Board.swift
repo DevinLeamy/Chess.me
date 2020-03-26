@@ -123,37 +123,91 @@ class Board {
 		}
 	}
 	
-	func makeMove(oldRow: Int, oldCol: Int, newRow: Int, newCol: Int, white: Team, black: Team, buttonChessBoard: [[UIButton]]) -> Bool {
-		let pieceBeingMoved = board[oldRow][oldCol]
-		if !pieceBeingMoved.getNextMoves().contains([newRow, newCol]) {
+	func makeMove(oldRow: Int, oldCol: Int, row: Int, col: Int, white: Team, black: Team, buttonChessBoard: [[UIButton]], uiViewController: UIViewController) -> Void {
+		var pieceBeingMoved = board[oldRow][oldCol]
+		if !pieceBeingMoved.getNextMoves().contains([row, col]) {
 			print("You are trying to make an invalid move")
-			return false
+			return
 		}
-		pieceBeingMoved.setPosition(currentRow: newRow, currentCol: newCol)
+		pieceBeingMoved.setPosition(currentRow: row, currentCol: col)
 		board[oldRow][oldCol] = Blank(currentRow: -1, currentCol: -1, side: Side.Blank, type: Pieces.Blank)
-		if board[newRow][newCol].getType() != Pieces.Blank {
-			let typeOfPieceCaptured = board[newRow][newCol].getType()
+		if board[row][col].getType() != Pieces.Blank {
+			let typeOfPieceCaptured = board[row][col].getType()
 			if turn == Side.White {
 				white.capturedPiece(piece: typeOfPieceCaptured)
 			} else {
 				black.capturedPiece(piece: typeOfPieceCaptured)
 			}
 		} else if pieceBeingMoved.getType() == Pieces.Pawn {
-			if abs(oldCol - newCol) == 1 {
+			if abs(oldCol - col) == 1 {
 				//Therefore enpassent was performed
 				if turn == Side.White {
 					white.capturedPiece(piece: Pieces.Pawn)
 				} else {
 					black.capturedPiece(piece: Pieces.Pawn)
 				}
-				board[oldRow][newCol] = Blank(currentRow: -1, currentCol: -1, side: Side.Blank, type: Pieces.Blank)
-				buttonChessBoard[oldRow][newCol].setImage(BLANK_IMAGE, for: UIControl.State.normal)
+				board[oldRow][col] = Blank(currentRow: -1, currentCol: -1, side: Side.Blank, type: Pieces.Blank)
+				buttonChessBoard[oldRow][col].setImage(BLANK_IMAGE, for: UIControl.State.normal)
 			}
 		}
-		board[newRow][newCol] = pieceBeingMoved
-		lastMove = [oldRow, oldCol, newRow, newCol]
-		lastPieceToMove = board[newRow][newCol]
-		return true
+		board[row][col] = pieceBeingMoved
+		lastMove = [oldRow, oldCol, row, col]
+		lastPieceToMove = board[row][col]
+		
+		
+		if pieceBeingMoved.getType() == Pieces.Rook {
+			(pieceBeingMoved as! Rook).setCanCastle(canCastle: false)
+		} else if pieceBeingMoved.getType() == Pieces.King {
+			(pieceBeingMoved as! King).setCanCastle(canCastle: false)
+			if abs(oldCol - col) == 2 {
+				//Castled
+				if col > oldCol {
+					//King side
+					let rookBeingMoved = (board[row][7] as! Rook)
+					rookBeingMoved.setPosition(currentRow: row, currentCol: col-1)
+					rookBeingMoved.setCanCastle(canCastle: false)
+					board[row][col-1] = rookBeingMoved
+					board[row][7] = Blank(currentRow: -1, currentCol: -1, side: Side.Blank, type: Pieces.Blank)
+					//Draw the rook in its new position
+					userChessBoard[row][col-1].setImage(getImageFor(piece: rookBeingMoved), for: UIControl.State.normal)
+					userChessBoard[row][7].setImage(BLANK_IMAGE, for: UIControl.State.normal)
+				} else {
+					//Queen side
+					let rookBeingMoved = (board[row][0] as! Rook)
+					rookBeingMoved.setPosition(currentRow: row, currentCol: col+1)
+					rookBeingMoved.setCanCastle(canCastle: false)
+					board[row][col+1] = rookBeingMoved
+					board[row][0] = Blank(currentRow: -1, currentCol: -1, side: Side.Blank, type: Pieces.Blank)
+					//Draw the rook in its new position
+					userChessBoard[row][col+1].setImage(getImageFor(piece: rookBeingMoved), for: UIControl.State.normal)
+					userChessBoard[row][0].setImage(BLANK_IMAGE, for: UIControl.State.normal)
+				}
+			}
+		} else if pieceBeingMoved.getType() == Pieces.Pawn {
+			if abs(row - oldRow) == 2 {
+				(pieceBeingMoved as! Pawn).setMovedTwice(movedTwice: true)
+			} else if row == 0 || row == 7 {
+				pieceBeingMoved = Queen(currentRow: row, currentCol: col,  side: pieceBeingMoved.getSide(), type: Pieces.Queen)
+				board[row][col] = pieceBeingMoved
+				board[row][col].setNextMoves(board: self)
+			}
+		}
+		userChessBoard[row][col].setImage(getImageFor(piece: pieceBeingMoved), for: UIControl.State.normal)
+		userChessBoard[oldRow][oldCol].setImage(BLANK_IMAGE, for: UIControl.State.normal)
+		changeTurn()
+		if selectedGameMode == GameMode.LocalMultiplayer {
+			flipBoard(bottom: getTurn())
+		}
+		let king = getKing(side: getTurn())! as! King //King is not found app will crash
+		let kingRow = king.getPosition()[0]
+		let kingCol = king.getPosition()[1]
+		if king.isInCheck(gameBoard: self) {
+			userChessBoard[kingRow][kingCol].setBackgroundImage(RED_TILE_IMAGE, for: UIControl.State.normal)
+		}
+		if selectedGameMode == GameMode.BluetoothMultiplayer {
+			let viewController = (uiViewController as! ViewController)
+			viewController.sendMove(move: [oldRow, oldCol, row, col])
+		}
 	}
 	
 	func isOnBoard(_ row: Int, _ col: Int) -> Bool {
