@@ -73,7 +73,10 @@ class MenuScreenViewController: UIViewController {
 		chessQuotes = [
 			["Chess is a beautiful mistress.", "Bent Larsen"],
 			["Chess demands total concentration.", "Bobby Fisher"],
-			["Chess is everything: art, science and sport.", "Anatoly Karpov"]
+			["Chess is everything: art, science and sport.", "Anatoly Karpov"],
+			["It always starts with one move to bring down the king.", "Garry Kasprov"],
+			["Chess is like life, you don't want to waste a move.", "Bing Gordan"],
+			["Chess is war over the board. The object is to crush the opponents mind", "Boris Spassky"]
 		]
 		setRandomQuote() //Puts and formats a random quote in the quoteDisplaylbl
 	}
