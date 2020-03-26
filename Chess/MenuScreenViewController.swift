@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MultipeerConnectivity
 
 let INTRO_BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(3)")!
 let DECORATION_IMAGE = UIImage(named: "DecorationImage(3)")
@@ -20,7 +21,13 @@ extension NSMutableAttributedString {
 		}
 	}
 }
-class MenuScreenViewController: UIViewController {
+var peerID: MCPeerID!
+var mcSession: MCSession!
+var mcAdvertiserAssistant: MCAdvertiserAssistant!
+
+
+class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
+
 	
 	@IBOutlet var decorationImage: UIImageView!
 	@IBOutlet var changeGameModebtn: UIButton!
@@ -34,6 +41,11 @@ class MenuScreenViewController: UIViewController {
 	var currentRow = 0
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		peerID = MCPeerID(displayName: UIDevice.current.name)
+		mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
+		mcSession.delegate = self
+		
 		
 //		introHeaderlbl.layer.backgroundColor = UIColor.lightGray.cgColor
 		introHeaderlbl.layer.borderColor = UIColor.black.cgColor
@@ -68,7 +80,7 @@ class MenuScreenViewController: UIViewController {
 		displayQuotelbl.lineBreakMode = NSLineBreakMode.byWordWrapping
 		displayQuotelbl.numberOfLines = 3
 		
-                gameModes = ["me", "online", "bluetooth", "couple"]
+                gameModes = ["me", "bluetooth", "online", "couple"]
 		
 		chessQuotes = [
 			["Chess is a beautiful mistress.", "Bent Larsen"],
@@ -91,11 +103,24 @@ class MenuScreenViewController: UIViewController {
 		currentRow %= gameModes.count
 		switch gameModes[currentRow] {
                         case gameModes[0]:
-                            selectedGameMode = GameMode.SinglePlayer
+				selectedGameMode = GameMode.SinglePlayer
                         case gameModes[1]:
-                            selectedGameMode = GameMode.BluetoothMultiplayer
+				selectedGameMode = GameMode.BluetoothMultiplayer
+				
+				if mcSession.connectedPeers.count >= 1 {
+					let alert = UIAlertController(title: "Play.bluetooth", message: "Join a session", preferredStyle: .alert)
+					alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: joinSession))
+					alert.addAction(UIAlertAction(title: NSLocalizedString("NO", comment: "Default action"), style: .default, handler: nil))
+					self.present(alert, animated: true, completion: nil)
+				} else {
+					let alert = UIAlertController(title: "Play.bluetooth", message: "Host a session", preferredStyle: .alert)
+					alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: startHosting))
+					alert.addAction(UIAlertAction(title: NSLocalizedString("NO", comment: "Default action"), style: .default, handler: nil))
+					self.present(alert, animated: true, completion: nil)
+				}
+		
                         case gameModes[2]:
-                            selectedGameMode = GameMode.Multiplayer
+				selectedGameMode = GameMode.Multiplayer
 			case gameModes[3]:
 				selectedGameMode = GameMode.LocalMultiplayer
                         default:
@@ -126,6 +151,56 @@ class MenuScreenViewController: UIViewController {
 //		let text = NSMutableAttributeString
 	}
 	
+	//MPConnectivity
+	func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+		  switch state {
+			  case MCSessionState.connected:
+			      print("Connected: \(peerID.displayName)")
+
+			  case MCSessionState.connecting:
+			      print("Connecting: \(peerID.displayName)")
+
+			  case MCSessionState.notConnected:
+			      print("Not Connected: \(peerID.displayName)")
+			@unknown default:
+				fatalError()
+			}
+	}
+	
+	func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+		
+	}
+	
+	func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+
+	}
+
+	func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+
+	}
+
+	func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+
+	}
+
+	func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
+		dismiss(animated: true)
+	}
+
+	func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
+		dismiss(animated: true)
+	}
+	
+	func startHosting(action: UIAlertAction!) {
+		mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "hws-kb", discoveryInfo: nil, session: mcSession)
+		mcAdvertiserAssistant.start()
+	}
+
+	func joinSession(action: UIAlertAction!) {
+		let mcBrowser = MCBrowserViewController(serviceType: "hws-kb", session: mcSession)
+		mcBrowser.delegate = self
+		present(mcBrowser, animated: true)
+	}
 
     /*
     // MARK: - Navigation

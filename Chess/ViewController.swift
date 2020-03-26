@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MultipeerConnectivity
 
 let WHITE_TILE_IMAGE = UIImage(named: "LightWoodTile")!
 let BLACK_TILE_IMAGE = UIImage(named: "DarkWoodTile(2)")!
@@ -29,7 +30,7 @@ let RETRY_LOGO_IMAGE = UIImage(named: "RetryLogo(1)")!
 let VISITED_TILE_IMAGE = UIImage(named: "DarkWoodTile(3)")
 let FLIPBOARD_LOGO_IMAGE = UIImage(named: "FlipLogo(2)")!
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
 	//Outlets
 	@IBOutlet var toolBar: UIToolbar!
 	@IBOutlet var gameBackgroundView: UIView!
@@ -300,5 +301,46 @@ class ViewController: UIViewController {
 			GAMEBOARD.flipBoard(bottom: Side.White)
 		}
 	}
+	
+	//MPConnectivity
+	func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+		  switch state {
+			  case MCSessionState.connected:
+			      print("Connected: \(peerID.displayName)")
+
+			  case MCSessionState.connecting:
+			      print("Connecting: \(peerID.displayName)")
+
+			  case MCSessionState.notConnected:
+			      print("Not Connected: \(peerID.displayName)")
+			@unknown default:
+				fatalError()
+			}
+	}
+	
+	func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+		
+	}
+	
+	func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+
+	}
+
+	func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+
+	}
+
+	func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+
+	}
+
+	func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
+		dismiss(animated: true)
+	}
+
+	func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
+		dismiss(animated: true)
+	}
+
 }
 
