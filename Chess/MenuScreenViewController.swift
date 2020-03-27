@@ -27,8 +27,6 @@ var mcAdvertiserAssistant: MCAdvertiserAssistant!
 var isHost = false
 
 class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
-
-	
 	@IBOutlet var decorationImage: UIImageView!
 	@IBOutlet var changeGameModebtn: UIButton!
 	@IBOutlet var introHeaderlbl: UILabel!
@@ -43,7 +41,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		super.viewDidLoad()
 		
 		peerID = MCPeerID(displayName: UIDevice.current.name)
-		mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
+		mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .optional)
 		mcSession.delegate = self
 		
 		
@@ -55,12 +53,12 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		introBackgroundView.layer.contents = (INTRO_BACKGROUND_IMAGE).cgImage
 		
 		changeGameModebtn.layer.cornerRadius = 20
-		changeGameModebtn.layer.backgroundColor = UIColor.black.cgColor //UIColor.white.cgColor // original color
+		changeGameModebtn.layer.backgroundColor = UIColor.white.cgColor // UIColor.black.cgColor// original color
 		
 		
 		playButton.clipsToBounds = true
 		playButton.layer.cornerRadius = 30
-		playButton.layer.backgroundColor = UIColor.black.cgColor //PINK_COLOR.cgColor // original color
+		playButton.layer.backgroundColor = PINK_COLOR.cgColor // UIColor.black.cgColor// original color
 		playButton.layer.borderWidth = 20
 		playButton.layer.borderColor = UIColor.white.cgColor
 		
@@ -144,6 +142,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	
 	//MPConnectivity
 	func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+		
 		  switch state {
 			  case MCSessionState.connected:
 			      print("Connected: \(peerID.displayName)")
@@ -184,13 +183,15 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	
 	func startHosting(action: UIAlertAction!) {
 		isHost = true
-		mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "hws-kb", discoveryInfo: nil, session: mcSession)
-		mcAdvertiserAssistant.start()
+		guard let mcSession = mcSession else { return }
+		mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "Chess", discoveryInfo: nil, session: mcSession)
+		mcAdvertiserAssistant?.start()
 	}
 
 	func joinSession(action: UIAlertAction!) {
 		isHost = false
-		let mcBrowser = MCBrowserViewController(serviceType: "hws-kb", session: mcSession)
+		guard let mcSession = mcSession else { return }
+		let mcBrowser = MCBrowserViewController(serviceType: "Chess", session: mcSession)
 		mcBrowser.delegate = self
 		present(mcBrowser, animated: true)
 	}
