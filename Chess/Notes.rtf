@@ -6,19 +6,8 @@
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 Pieces Notes\
-	Queen and Rook \
-		-Can put king in check\
-\
 	Pawn\
-		-Cannot take en passant\
-		-Cannot change type when you reach the last rank (0 or 7th depending on team)\
-	King\
-		-Can capture and move into check\
-		-Cannot Castle\
-	All\
-		-Can move putting king into check\
-	\
-\
+		-Cannot change type to anything other than queen when you reach the last rank (0 or 7th depending on team)\
 Game\
 	Add option to resign\
 	Add option to make game timed\
@@ -27,22 +16,14 @@ Game\
 \
 \
 Ways to refactor\
-	-Check the legality of a move before it is added to a given pieces nextMovesArray\
-		-Therefore checkmate is when there are no legal moves and the king is in check\
-		-Therefore stalemate is when there are no legal moves\
-\
 	-Make instance variables private or only accessible to subclasses\
-	-Move as may methods from the Game class to the Board class\
-	-Make the matrix of UIButtons (userGameBoard) an instance variable of Game\
-	-Make redraw() redraw the pieces based on the GAMEBOARD.board\
+	-Remove Game Class. Only have board class\
 \
 \
 BUGS\
-	-Some legal moves are not recognized as being legal moves\
-	-The queen can move while the king is in check\
+\
 	\
 Things to add\
-	Highlight the last move that has been made\
 	Allow deep copy of the game board and then record the game board states throughout the game on a stack -> Allow user to go back and forth through game moves\
 	Add restart button for .me game mode\
 	If playing bluetooth need to check every so often whether there are still two players in the party}

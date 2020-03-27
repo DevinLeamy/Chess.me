@@ -27,6 +27,7 @@
 		0353149D24241270001B7915 /* Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0353149C24241270001B7915 /* Notes.rtf */; };
 		0353149F24241A5E001B7915 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0353149E24241A5E001B7915 /* Game.swift */; };
 		035314AB2425AD94001B7915 /* MenuScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035314AA2425AD94001B7915 /* MenuScreenViewController.swift */; };
+		03882B1F242DA0BC00EAFBD5 /* ChessEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03882B1E242DA0BC00EAFBD5 /* ChessEngine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		0353149C24241270001B7915 /* Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
 		0353149E24241A5E001B7915 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		035314AA2425AD94001B7915 /* MenuScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreenViewController.swift; sourceTree = "<group>"; };
+		03882B1E242DA0BC00EAFBD5 /* ChessEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessEngine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 				035314722423E125001B7915 /* SceneDelegate.swift */,
 				035314742423E125001B7915 /* ViewController.swift */,
 				035314AA2425AD94001B7915 /* MenuScreenViewController.swift */,
+				03882B1E242DA0BC00EAFBD5 /* ChessEngine.swift */,
 				035314842423E197001B7915 /* Piece.swift */,
 				035314862423E2FA001B7915 /* Knight.swift */,
 				0353148A2423E471001B7915 /* Rook.swift */,
@@ -189,6 +192,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03882B1F242DA0BC00EAFBD5 /* ChessEngine.swift in Sources */,
 				035314872423E2FA001B7915 /* Knight.swift in Sources */,
 				0353149F24241A5E001B7915 /* Game.swift in Sources */,
 				035314972423E750001B7915 /* Blank.swift in Sources */,

@@ -7,13 +7,16 @@
 //
 
 import Foundation
+import UIKit
 
 class Team {
 	var score = 0
 	var piecesCaptured = [Pieces]()
 	var side: Side
-	init(side: Side) {
+	var teamScorelbl: UILabel
+	init(side: Side, teamScorelbl: UILabel) {
 		self.side = side
+		self.teamScorelbl = teamScorelbl
 	}
 	
 	func capturedPiece(piece: Pieces) {

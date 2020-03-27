@@ -18,6 +18,9 @@ class Board {
 	var lastMove: [Int] = []
 	var lastPieceToMove: Piece!
 	var theme: Theme = Theme.Rustic
+	var movesPlayed = 0
+	var tileSelected: Bool = false
+	var selectedTile: [Int] = [-1, -1]
 	init(userChessBoard: [[UIButton]], verticalStackView: UIStackView?) {
 		if (verticalStackView != nil) {
 			self.verticalStackView = verticalStackView!
@@ -123,12 +126,13 @@ class Board {
 		}
 	}
 	
-	func makeMove(oldRow: Int, oldCol: Int, row: Int, col: Int, white: Team, black: Team, buttonChessBoard: [[UIButton]], uiViewController: UIViewController) -> Void {
+	func makeMove(oldRow: Int, oldCol: Int, row: Int, col: Int, white: Team, black: Team, uiViewController: UIViewController) -> Void {
 		var pieceBeingMoved = board[oldRow][oldCol]
 		if !pieceBeingMoved.getNextMoves().contains([row, col]) {
 			print("You are trying to make an invalid move")
 			return
 		}
+		movesPlayed += 1
 		pieceBeingMoved.setPosition(currentRow: row, currentCol: col)
 		board[oldRow][oldCol] = Blank(currentRow: -1, currentCol: -1, side: Side.Blank, type: Pieces.Blank)
 		if board[row][col].getType() != Pieces.Blank {
@@ -147,7 +151,7 @@ class Board {
 					black.capturedPiece(piece: Pieces.Pawn)
 				}
 				board[oldRow][col] = Blank(currentRow: -1, currentCol: -1, side: Side.Blank, type: Pieces.Blank)
-				buttonChessBoard[oldRow][col].setImage(BLANK_IMAGE, for: UIControl.State.normal)
+				userChessBoard[oldRow][col].setImage(BLANK_IMAGE, for: UIControl.State.normal)
 			}
 		}
 		board[row][col] = pieceBeingMoved
@@ -216,6 +220,54 @@ class Board {
 		}
 		return true
 	}
+	
+	
+	func updateBoard(game: Game, viewController: ViewController) {
+		redrawboard()
+		
+		if game.gameIsOver() {
+			let gameResultInfo = game.getGameResult()
+			
+			let alert = UIAlertController(title: "GameOver", message: (gameResultInfo[0] as! String), preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+				let storyboard = UIStoryboard(name: "Main", bundle: nil)
+				let secondVC = storyboard.instantiateViewController(identifier: "menuViewController")
+				viewController.show(secondVC, sender: nil)
+				//ADD: Disconnect the player from the bluetooth host or, if host, stop hosting
+				viewController.restartGame()
+			}))
+			viewController.present(alert, animated: true, completion: nil)
+			print(gameResultInfo[0])
+		}
+		
+		if game.white.score > game.black.score {
+			game.white.teamScorelbl.text = "+\(game.white.score - game.black.score)"
+			game.black.teamScorelbl.text = ""
+		} else if game.white.score  < game.black.score {
+			game.white.teamScorelbl.text = ""
+			game.black.teamScorelbl.text = "+\(game.black.score - game.black.score)"
+		} else {
+			game.white.teamScorelbl.text = ""
+			game.black.teamScorelbl.text = ""
+		}
+		
+		//Tints the tiles that can be traveled to
+		if tileSelected {
+			let pieceSelected = board[selectedTile[0]][selectedTile[1]]
+			for move in pieceSelected.getNextMoves() {
+				if move.count == 0 {continue}
+				if theme == Theme.Rustic {
+					userChessBoard[move[0]][move[1]].setBackgroundImage(VISITED_TILE_IMAGE, for: UIControl.State.normal)
+				} else {
+					userChessBoard[move[0]][move[1]].backgroundColor = UIColor.lightGray
+				}
+			}
+		}
+		
+		
+	}
+	
+	
 	func getImageFor(piece: Piece) -> UIImage {
 		if piece.getSide() == Side.Black {
 			let pieceType = piece.getType()

@@ -38,13 +38,12 @@ class ViewController: UIViewController {
 	@IBOutlet var whiteScorelbl: UILabel!
 	@IBOutlet var verticalStackView: UIStackView!
 	var userChessBoard = [[UIButton]]()
-	var GAMEBOARD: Board = Board(userChessBoard: [[]], verticalStackView: nil)
-	var GAME: Game = Game(white: Team(side: Side.Blank), black: Team(side: Side.Blank), board: Board(userChessBoard: [[]], verticalStackView: nil))
-	var WHITE: Team = Team(side: Side.Blank)
-	var BLACK: Team = Team(side: Side.Blank)
-	var tileSelected = false
-	var selectedTile = [-1, -1]
+	var GAMEBOARD: Board!
+	var GAME: Game!
+	var WHITE: Team!
+	var BLACK: Team!
 	var mySide = Side.White //Default
+	let engine = ChessEngine()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -53,10 +52,10 @@ class ViewController: UIViewController {
 		getButtonsFromStackView()
 	
 		gameBackgroundView.layer.contents = (BACKGROUND_IMAGE).cgImage
-		GAMEBOARD = Board(userChessBoard: userChessBoard, verticalStackView: verticalStackView)
-		GAME = Game(white: Team(side: Side.White), black: Team(side: Side.Black), board: GAMEBOARD)
-		WHITE = GAME.getWhite()
-		BLACK = GAME.getBlack()
+		self.GAMEBOARD = Board(userChessBoard: userChessBoard, verticalStackView: verticalStackView)
+		self.GAME = Game(white: Team(side: Side.White, teamScorelbl: whiteScorelbl), black: Team(side: Side.Black, teamScorelbl: blackScorelbl), board: GAMEBOARD)
+		self.WHITE = GAME.getWhite()
+		self.BLACK = GAME.getBlack()
 		GAMEBOARD.setNextMoves()
 		
 		initializeGameBoard()
@@ -117,15 +116,17 @@ class ViewController: UIViewController {
 			return
 		} else if selectedGameMode == GameMode.BluetoothMultiplayer && mySide != GAMEBOARD.getTurn() {
 			return
+		} else if selectedGameMode == GameMode.SinglePlayer && GAMEBOARD.getTurn() != Side.White {
+			return //In case the chess engine is still thinking of a move
 		}
 		let position = getPositionByTag(tag: sender.tag)
 		let row = position[0]
 		let col = position[1]
 		let turn = GAMEBOARD.getTurn()
-		if GAMEBOARD.board[row][col].getSide() == turn && !tileSelected{
-			tileSelected = true
-			selectedTile = position
-		} else if GAMEBOARD.board[row][col].getSide() != turn && tileSelected{
+		if GAMEBOARD.board[row][col].getSide() == turn && !GAMEBOARD.tileSelected{
+			GAMEBOARD.tileSelected = true
+			GAMEBOARD.selectedTile = position
+		} else if GAMEBOARD.board[row][col].getSide() != turn && GAMEBOARD.tileSelected{
 			
 			//Makes sure enpassant can't be performed after it legally could
 			for i in 0..<8 {
@@ -139,12 +140,15 @@ class ViewController: UIViewController {
 			}
 			
 			//One tile has already been selected
-			GAMEBOARD.makeMove(oldRow: selectedTile[0], oldCol: selectedTile[1], row: row, col: col, white: WHITE, black: BLACK, buttonChessBoard: userChessBoard, uiViewController: self)
-			tileSelected = false
-			selectedTile = [-1, -1]
+			GAMEBOARD.makeMove(oldRow: GAMEBOARD.selectedTile[0], oldCol: GAMEBOARD.selectedTile[1], row: row, col: col, white: WHITE, black: BLACK,  uiViewController: self)
+			GAMEBOARD.tileSelected = false
+			GAMEBOARD.selectedTile = [-1, -1]
+			if selectedGameMode == GameMode.SinglePlayer {
+				engine.makeMove(board: GAMEBOARD, viewController: self)
+			}
 		} else if GAMEBOARD.board[row][col].getSide() == turn {
-			tileSelected = true
-			selectedTile = position
+			GAMEBOARD.tileSelected = true
+			GAMEBOARD.selectedTile = position
 			let king = GAMEBOARD.getKing(side: GAMEBOARD.getTurn())! as! King //King is not found app will crash
 			let kingRow = king.getPosition()[0]
 			let kingCol = king.getPosition()[1]
@@ -152,46 +156,7 @@ class ViewController: UIViewController {
 				GAMEBOARD.userChessBoard[kingRow][kingCol].setBackgroundImage(RED_TILE_IMAGE, for: UIControl.State.normal)
 			}
 		}
-		GAMEBOARD.redrawboard()
-		
-		if GAME.gameIsOver() {
-			let gameResultInfo = GAME.getGameResult()
-			
-			let alert = UIAlertController(title: "GameOver", message: (gameResultInfo[0] as! String), preferredStyle: .alert)
-			alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-				let storyboard = UIStoryboard(name: "Main", bundle: nil)
-				let secondVC = storyboard.instantiateViewController(identifier: "menuViewController")
-				self.show(secondVC, sender: nil)
-				//ADD: Disconnect the player from the bluetooth host or, if host, stop hosting
-				self.restartGame()
-			}))
-			self.present(alert, animated: true, completion: nil)
-			print(gameResultInfo[0])
-		}
-		
-		if WHITE.score > BLACK.score {
-			whiteScorelbl.text = "+\(WHITE.score - BLACK.score)"
-			blackScorelbl.text = ""
-		} else if WHITE.score < BLACK.score {
-			whiteScorelbl.text = ""
-			blackScorelbl.text = "+\(BLACK.score - WHITE.score)"
-		} else {
-			whiteScorelbl.text = ""
-			blackScorelbl.text = ""
-		}
-		
-		//Tints the tiles that can be traveled to
-		if tileSelected {
-			let pieceSelected = GAMEBOARD.board[selectedTile[0]][selectedTile[1]]
-			for move in pieceSelected.getNextMoves() {
-				if move.count == 0 {continue}
-				if GAMEBOARD.theme == Theme.Rustic {
-					GAMEBOARD.userChessBoard[move[0]][move[1]].setBackgroundImage(VISITED_TILE_IMAGE, for: UIControl.State.normal)
-				} else {
-					GAMEBOARD.userChessBoard[move[0]][move[1]].backgroundColor = UIColor.lightGray
-				}
-			}
-		}
+		GAMEBOARD.updateBoard(game: GAME, viewController: self)
 	}
 
 	func initializeGameBoard() -> Void {
@@ -240,7 +205,7 @@ class ViewController: UIViewController {
 	
 	@objc func restartGame() {
 		GAMEBOARD = Board(userChessBoard: userChessBoard, verticalStackView: verticalStackView)
-		GAME = Game(white: Team(side: Side.White), black: Team(side: Side.Black), board: GAMEBOARD)
+		GAME = Game(white: Team(side: Side.White, teamScorelbl: whiteScorelbl), black: Team(side: Side.Black, teamScorelbl: blackScorelbl), board: GAMEBOARD)
 		WHITE = GAME.getWhite()
 		BLACK = GAME.getBlack()
 		GAMEBOARD.setNextMoves()
@@ -264,7 +229,7 @@ class ViewController: UIViewController {
 	func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
 		var move = Array<Int>(repeating: 0, count: data.count/MemoryLayout<Int>.stride)
 		_ = move.withUnsafeMutableBytes { data.copyBytes(to: $0) }
-		GAMEBOARD.makeMove(oldRow: move[0], oldCol: move[1], row: move[2], col: move[3], white: WHITE, black: BLACK, buttonChessBoard: userChessBoard, uiViewController: self)
+		GAMEBOARD.makeMove(oldRow: move[0], oldCol: move[1], row: move[2], col: move[3], white: WHITE, black: BLACK, uiViewController: self)
 	}
 	
 	func sendMove(move: [Int]) {
