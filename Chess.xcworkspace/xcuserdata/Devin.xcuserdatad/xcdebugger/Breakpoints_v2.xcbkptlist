@@ -14,8 +14,8 @@
             filePath = "Chess/Board.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
             landmarkName = "Board"
             landmarkType = "3">
          </BreakpointContent>
@@ -78,9 +78,9 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "getBestMove(board:depth:currentDepth:getMin:)"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "getBestMove(board:depth:currentDepth:getMin:alpha:beta:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -94,8 +94,8 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "makeMove(board:viewController:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,9 +110,9 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "getBestMove(board:depth:currentDepth:getMin:)"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "getBestMove(board:depth:currentDepth:getMin:alpha:beta:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -126,8 +126,8 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "makeMove(board:viewController:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,9 +142,9 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "getBestMove(board:depth:currentDepth:getMin:)"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "getBestMove(board:depth:currentDepth:getMin:alpha:beta:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -158,9 +158,9 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "getBestMove(board:depth:currentDepth:getMin:)"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "getBestMove(board:depth:currentDepth:getMin:alpha:beta:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -174,9 +174,9 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "getBestMove(board:depth:currentDepth:getMin:)"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "getBestMove(board:depth:currentDepth:getMin:alpha:beta:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

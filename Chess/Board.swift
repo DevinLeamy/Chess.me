@@ -132,6 +132,9 @@ class Board {
 			print("You are trying to make an invalid move")
 			return
 		}
+		if pieceBeingMoved.getType() == Pieces.King {
+			(pieceBeingMoved as! King).setCanCastle(canCastle: false)
+		}
 		movesPlayed += 1
 		pieceBeingMoved.setPosition(currentRow: row, currentCol: col)
 		board[oldRow][oldCol] = Blank(currentRow: -1, currentCol: -1, side: Side.Blank, type: Pieces.Blank)

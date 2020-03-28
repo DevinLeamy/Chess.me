@@ -43,7 +43,7 @@ class King: Piece {
 		}
 		//Checking if you can castle in the most brutal way
 		//Could use loop to improve
-		if canCastle && !isInCheck(gameBoard: board) {
+		if canCastle && !isInCheck(gameBoard: board) && ((row == 0 && col == 4) || (row == 7 && col == 4)) {
 			//King side
 			if isValidMove(oldRow: row, oldCol: col, newRow: row, newCol: col+1, side: self.side, board: board) && board.board[row][col+1].getType() == Pieces.Blank {
 				if isValidMove(oldRow: row, oldCol: col, newRow: row, newCol: col+2, side: self.side, board: board) && board.board[row][col+2].getType() == Pieces.Blank{
