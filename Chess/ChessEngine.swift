@@ -10,11 +10,17 @@ import Foundation
 import UIKit
 
 class ChessEngine {
-	func getMoves(board: Board) -> [[Int]]{
+	var viewController : ViewController
+	
+	init(viewController: ViewController) {
+		self.viewController = viewController
+	}
+	
+	func getMoves(board: Board, side: Side) -> [[Int]]{
 		var moves: [[Int]] = []
 		for i in 0..<8 {
 			for j in 0..<8 {
-				if board.board[i][j].getType() != Pieces.Blank && board.board[i][j].getSide() == board.getTurn() {
+				if board.board[i][j].getType() != Pieces.Blank && board.board[i][j].getSide() == side {
 					board.board[i][j].setNextMoves(board: board)
 					for move in board.board[i][j].getNextMoves() {
 						if move.count == 0 {continue}
@@ -25,29 +31,70 @@ class ChessEngine {
 		}
 		return moves
 	}
-	func getBestMove(board: Board) -> [Int] {
-		let moves = getMoves(board: board)
-		if moves.count == 0 {
-			return [-1, -1]
+	func getBestMove(board: Board, depth: Int, currentDepth: Int, getMin: Bool) -> [Int] {
+		var moves : [[Int]]
+		var bestVal = 10000
+		if getMin {
+			moves = getMoves(board: board, side: Side.Black)
+		} else {
+			moves = getMoves(board: board, side: Side.White)
+			bestVal *= -1
 		}
-		var best = moves[0]
-		var bestVal = 0
+		if moves.count == 0 {
+			return [-1, -1, -1, -1, bestVal]
+		}
+		var bestMoves = [moves[0]]
 		for move in moves {
 			var boardCopy = getCopyOfBoard(board)
 			boardCopy =  makeFieldingMove(move: move, board: &boardCopy)
-			let eval = getBoardValuation(board: boardCopy)
-			if eval < bestVal {
-				bestVal = eval
-				best = move
+			if currentDepth == depth {
+				let eval = getBoardValuation(board: boardCopy)
+				if eval == bestVal {
+					bestMoves.append(move)
+				} else if getMin {
+					if eval < bestVal {
+						bestVal = eval
+						bestMoves = [move]
+					}
+				} else {
+					if eval > bestVal {
+						bestVal = eval
+						bestMoves = [move]
+					}
+				}
+			} else {
+				let newBoard = Board(userChessBoard: getCopyOfBoard(&board.userChessBoard), verticalStackView: viewController.verticalStackView)
+				newBoard.board = boardCopy
+				let eval = getBestMove(board: newBoard, depth: depth, currentDepth: currentDepth + 1, getMin: !getMin)
+				
+				if eval[4] == bestVal {
+					bestMoves.append(move)
+				} else if getMin {
+				if eval[4] < bestVal {
+						bestVal = eval[4]
+						bestMoves = [move]
+					}
+				} else {
+					if eval[4] > bestVal {
+						bestVal = eval[4]
+						bestMoves = [move]
+					}
+				}
+				
 			}
 		}
-		
+//		print("Current Depth: \(currentDepth) Evaluation: \(bestVal) Minimize: \(getMin)")
+		var best = bestMoves[Int.random(in: 0..<bestMoves.count)]
+		best.append(bestVal)
 		return best
 	}
 	
 	func makeMove(board: Board, viewController: ViewController) {
-		let move = getBestMove(board: board)
-		if move.count == 4 {
+		let move = getBestMove(board: board, depth: 2, currentDepth: 0, getMin: true)
+//		for _ in 0..<100 {
+//			print("***********************")
+//		}
+		if move.count == 5 {
 			board.makeMove(oldRow: move[0], oldCol: move[1], row: move[2], col: move[3], white: viewController.GAME.white, black: viewController.GAME.black, uiViewController: viewController)
 			board.updateBoard(game: viewController.GAME, viewController: viewController)
 		}
@@ -63,6 +110,10 @@ class ChessEngine {
 			newBoard.append(row)
 		}
 		return newBoard
+	}
+	
+	func getCopyOfBoard(_ board: inout [[UIButton]]) -> [[UIButton]] {
+		return board
 	}
 	
 	func copyPiece(_ piece: Piece) -> Piece {
@@ -94,7 +145,7 @@ class ChessEngine {
 		let dCol = move[3]
 		board[dRow][dCol] = board[row][col]
 		board[dRow][dCol].setPosition(currentRow: dRow, currentCol: dCol)
-		board[dRow][dCol] = Blank(currentRow: -1, currentCol: -1, side: Side.Black, type: Pieces.Blank)
+		board[row][col] = Blank(currentRow: -1, currentCol: -1, side: Side.Black, type: Pieces.Blank)
 		return board
 	}
 	

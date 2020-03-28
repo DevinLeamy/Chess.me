@@ -43,7 +43,7 @@ class ViewController: UIViewController {
 	var WHITE: Team!
 	var BLACK: Team!
 	var mySide = Side.White //Default
-	let engine = ChessEngine()
+	var engine : ChessEngine!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -57,6 +57,7 @@ class ViewController: UIViewController {
 		self.WHITE = GAME.getWhite()
 		self.BLACK = GAME.getBlack()
 		GAMEBOARD.setNextMoves()
+		self.engine = ChessEngine(viewController: self)
 		
 		initializeGameBoard()
 //		
@@ -143,7 +144,7 @@ class ViewController: UIViewController {
 			GAMEBOARD.makeMove(oldRow: GAMEBOARD.selectedTile[0], oldCol: GAMEBOARD.selectedTile[1], row: row, col: col, white: WHITE, black: BLACK,  uiViewController: self)
 			GAMEBOARD.tileSelected = false
 			GAMEBOARD.selectedTile = [-1, -1]
-			if selectedGameMode == GameMode.SinglePlayer {
+			if selectedGameMode == GameMode.SinglePlayer && GAMEBOARD.getTurn() != Side.White {
 				engine.makeMove(board: GAMEBOARD, viewController: self)
 			}
 		} else if GAMEBOARD.board[row][col].getSide() == turn {
