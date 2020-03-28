@@ -31,66 +31,67 @@ class ChessEngine {
 		}
 		return moves
 	}
-	func getBestMove(board: Board, depth: Int, currentDepth: Int, getMin: Bool, alpha: Int, beta: Int) -> [Int] {
-		var moves : [[Int]]
-		var bestVal = 10000
-		if getMin {
-			moves = getMoves(board: board, side: Side.Black)
-		} else {
-			moves = getMoves(board: board, side: Side.White)
-			bestVal *= -1
+	func getBestMove(board: Board, depth: Int, currentDepth: Int, maximizingPlayer: Bool, alpha: Int, beta: Int) -> [Int] {
+		if currentDepth == depth {
+			return [-1, -1, -1, -1, getBoardValuation(board: board.board)]
 		}
-		if moves.count == 0 {
-			return [-1, -1, -1, -1, bestVal]
-		}
+		
 		var newAlpha = alpha
 		var newBeta = beta
-		var bestMoves = [moves[0]]
-		for move in moves {
-			var boardCopy = getCopyOfBoard(board)
-			boardCopy =  makeFieldingMove(move: move, board: &boardCopy)
-			if currentDepth == depth {
-				let eval = getBoardValuation(board: boardCopy)
-				if eval == bestVal {
-					bestMoves.append(move)
-				} else if getMin {
-					if eval < bestVal {
-						bestVal = eval
-						bestMoves = [move]
-					}
-				} else {
-					if eval > bestVal {
-						bestVal = eval
-						bestMoves = [move]
-					}
-				}
-			} else {
+		var bestVal : Int
+		var moves : [[Int]]
+		var bestMoves : [[Int]]
+		if maximizingPlayer {
+			bestVal = -10000
+			moves = getMoves(board: board, side: Side.White)
+			if moves.count == 0 {
+				return [-1, -1, -1, -1, bestVal]
+			}
+			bestMoves = [moves[0]]
+			for move in moves {
+				var boardCopy = getCopyOfBoard(board)
+				boardCopy =  makeFieldingMove(move: move, board: &boardCopy)
 				let newBoard = Board(userChessBoard: getCopyOfBoard(&board.userChessBoard), verticalStackView: viewController.verticalStackView)
 				newBoard.board = boardCopy
-				let eval = getBestMove(board: newBoard, depth: depth, currentDepth: currentDepth + 1, getMin: !getMin, alpha: newAlpha, beta: newBeta)[4]
+				let eval = getBestMove(board: newBoard, depth: depth, currentDepth: currentDepth + 1, maximizingPlayer: !maximizingPlayer, alpha: newAlpha, beta: newBeta)[4]
 				if eval == bestVal {
 					bestMoves.append(move)
-				} else if getMin {
-					if eval < bestVal {
-						bestVal = eval
-						bestMoves = [move]
-					}
-				} else {
-					if eval > bestVal {
-						bestVal = eval
-						bestMoves = [move]
-					}
+				} else if eval > bestVal {
+					bestVal = eval
+					bestMoves = [move]
 				}
-				if getMin {
-					newBeta = min(beta, bestVal)
-				} else {
-					newAlpha = max(alpha, bestVal)
+				newAlpha = max(newAlpha, bestVal)
+				
+				if newBeta <= newAlpha {
+					break
 				}
-//				if newBeta <= newAlpha {
-//					break
-//				}
+			}
+		} else {
+			bestVal = 10000
+			moves = getMoves(board: board, side: Side.Black)
+			if moves.count == 0 {
+				return [-1, -1, -1, -1, bestVal]
+			}
+			bestMoves = [moves[0]]
+			for move in moves {
+				var boardCopy = getCopyOfBoard(board)
+				boardCopy =  makeFieldingMove(move: move, board: &boardCopy)
+				let newBoard = Board(userChessBoard: getCopyOfBoard(&board.userChessBoard), verticalStackView: viewController.verticalStackView)
+				newBoard.board = boardCopy
+				let eval = getBestMove(board: newBoard, depth: depth, currentDepth: currentDepth + 1, maximizingPlayer: !maximizingPlayer, alpha: alpha, beta: beta)[4]
+				if eval == bestVal {
+					bestMoves.append(move)
+				} else if eval < bestVal {
+					bestVal = eval
+					bestMoves = [move]
+				}
+				newBeta = min(newBeta, bestVal)
+				if newBeta <= newAlpha {
+					break
+				}
 			}
 		}
+	
 //		print("Current Depth: \(currentDepth) Evaluation: \(bestVal) Minimize: \(getMin)")
 		var best = bestMoves[Int.random(in: 0..<bestMoves.count)]
 		best.append(bestVal)
@@ -99,7 +100,7 @@ class ChessEngine {
 	func makeMove(board: Board, viewController: ViewController) {
 		let alpha = -100000
 		let beta = 100000
-		let move = getBestMove(board: board, depth: 2, currentDepth: 0, getMin: true, alpha: alpha, beta: beta)
+		let move = getBestMove(board: board, depth: 3, currentDepth: 0, maximizingPlayer: false, alpha: alpha, beta: beta)
 		if move.count == 5 && move[0] != -1 {
 			board.makeMove(oldRow: move[0], oldCol: move[1], row: move[2], col: move[3], white: viewController.GAME.white, black: viewController.GAME.black, uiViewController: viewController)
 			board.updateBoard(game: viewController.GAME, viewController: viewController)
