@@ -139,14 +139,10 @@ class ViewController: UIViewController {
 					}
 				}
 			}
-			
 			//One tile has already been selected
 			GAMEBOARD.makeMove(oldRow: GAMEBOARD.selectedTile[0], oldCol: GAMEBOARD.selectedTile[1], row: row, col: col, white: WHITE, black: BLACK,  uiViewController: self)
 			GAMEBOARD.tileSelected = false
 			GAMEBOARD.selectedTile = [-1, -1]
-			if selectedGameMode == GameMode.SinglePlayer && GAMEBOARD.getTurn() != Side.White {
-				engine.makeMove(board: GAMEBOARD, viewController: self)
-			}
 		} else if GAMEBOARD.board[row][col].getSide() == turn {
 			GAMEBOARD.tileSelected = true
 			GAMEBOARD.selectedTile = position
@@ -158,6 +154,9 @@ class ViewController: UIViewController {
 			}
 		}
 		GAMEBOARD.updateBoard(game: GAME, viewController: self)
+		if selectedGameMode == GameMode.SinglePlayer && GAMEBOARD.getTurn() != Side.White {
+			engine.makeMove(board: GAMEBOARD, viewController: self)
+		}
 	}
 
 	func initializeGameBoard() -> Void {

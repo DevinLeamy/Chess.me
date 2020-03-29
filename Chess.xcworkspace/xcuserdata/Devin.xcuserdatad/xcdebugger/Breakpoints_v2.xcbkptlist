@@ -14,8 +14,8 @@
             filePath = "Chess/Board.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "Board"
             landmarkType = "3">
          </BreakpointContent>
@@ -46,25 +46,9 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "getMoves(board:side:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "034A9A8D-4379-4E98-8679-8C06E646ACCC"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Chess/ViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
-            landmarkName = "tileClicked(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -78,8 +62,8 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "getBestMove(board:depth:currentDepth:maximizingPlayer:alpha:beta:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +78,8 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
             landmarkName = "makeMove(board:viewController:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +94,8 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "makeMove(board:viewController:)"
             landmarkType = "7">
          </BreakpointContent>

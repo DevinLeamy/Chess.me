@@ -233,9 +233,7 @@ class Board {
 			
 			let alert = UIAlertController(title: "GameOver", message: (gameResultInfo[0] as! String), preferredStyle: .alert)
 			alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-				let storyboard = UIStoryboard(name: "Main", bundle: nil)
-				let secondVC = storyboard.instantiateViewController(identifier: "menuViewController")
-				viewController.show(secondVC, sender: nil)
+				viewController.dismiss(animated: true, completion: nil)
 				//ADD: Disconnect the player from the bluetooth host or, if host, stop hosting
 				viewController.restartGame()
 			}))
@@ -246,9 +244,9 @@ class Board {
 		if game.white.score > game.black.score {
 			game.white.teamScorelbl.text = "+\(game.white.score - game.black.score)"
 			game.black.teamScorelbl.text = ""
-		} else if game.white.score  < game.black.score {
+		} else if game.white.score < game.black.score {
 			game.white.teamScorelbl.text = ""
-			game.black.teamScorelbl.text = "+\(game.black.score - game.black.score)"
+			game.black.teamScorelbl.text = "+\(game.black.score - game.white.score)"
 		} else {
 			game.white.teamScorelbl.text = ""
 			game.black.teamScorelbl.text = ""

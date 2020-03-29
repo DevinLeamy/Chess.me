@@ -11,6 +11,74 @@ import UIKit
 
 class ChessEngine {
 	var viewController : ViewController
+	// Boards need to fliped for black pieces
+	let kingBoard = [
+		[-3.0, -4,0, -4,0, -5.0, -5.0, -4.0, -4.0, -3.0],
+		[-3.0, -4,0, -4,0, -5.0, -5.0, -4.0, -4.0, -3.0],
+		[-3.0, -4,0, -4,0, -5.0, -5.0, -4.0, -4.0, -3.0],
+		[-3.0, -4,0, -4,0, -5.0, -5.0, -4.0, -4.0, -3.0],
+		[-2.0, -3,0, -3,0, -4.0, -4.0, -3.0, -3.0, -2.0],
+		[-1.0, -2,0, -2,0, -2.0, -2.0, -2.0, -2.0, -1.0],
+		[ 2.0,  2.0,  0.0,  0.0,  0.0,  0.0,  2.0,  2.0],
+		[ 2.0,  3.0,  1.0,  0.0,  0.0,  1.0,  3.0,  2.0]
+	]
+	let rookBoard = [
+		[ 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0],
+		[ 0.5,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  0.5],
+		[-0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+		[-0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+		[-0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+		[-0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+		[-0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+		[-1.0,  0.0,  0.5,  1.0,  1.0,  0.5,  0.0, -1.0] // ORIGINAL: 	[ 0.0,  0.0,  0.0,  0.5,  0.5,  0.0,  0.0,  0.0]
+	]
+	
+	let knightBoard = [
+		[-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0],
+		[-4.0, -2.0,  0.0,  0.0,  0.0,  0.0, -2.0, -4.0],
+		[-3.0,  0.0,  1.0,  1.5,  1.5,  1.0,  0.0, -3.0],
+		[-3.0,  0.5,  1.5,  2.0,  2.0,  1.5,  0.5, -3.0],
+		[-3.0,  0.0,  1.5,  2.0,  2.0,  1.5,  0.0, -3.0],
+		[-3.0,  0.5,  1.0,  1.5,  1.5,  1.0,  0.5, -3.0],
+		[-4.0, -2.0,  0.0,  0.5,  0.5,  0.0, -2.0, -4.0],
+		[-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0]
+	]
+	
+	let queenBoard = [
+		[-2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0],
+		[-1.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -1.0],
+		[-1.0,  0.0,  0.5,  0.5,  0.5,  0.5,  0.0, -1.0],
+		[-0.5,  0.0,  0.5,  0.5,  0.5,  0.5,  0.0, -0.5],
+		[ 0.0,  0.0,  0.5,  0.5,  0.5,  0.5,  0.0, -0.5],
+		[-1.0,  0.5,  0.5,  0.5,  0.5,  0.5,  0.0, -1.0],
+		[-1.0,  0.0,  0.5,  0.0,  0.0,  0.0,  0.0, -1.0],
+		[-2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0]
+	]
+	
+	let bishopBoard = [
+		[-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0],
+		[-1.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -1.0],
+		[-1.0,  0.0,  0.5,  1.0,  1.0,  0.5,  0.0, -1.0],
+		[-1.0,  0.5,  0.5,  1.0,  1.0,  0.5,  0.5, -1.0],
+		[-1.0,  0.0,  1.0,  1.0,  1.0,  1.0,  0.0, -1.0],
+		[-1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0, -1.0],
+		[-1.0,  0.5,  0.0,  0.0,  0.0,  0.0,  0.5, -1.0],
+		[-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0]
+	]
+	
+	let pawnBoard = [
+		[ 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0],
+		[ 5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0],
+		[ 1.0,  1.0,  2.0,  3.0,  3.0,  2.0,  1.0,  1.0],
+		[ 0.5,  0.5,  1.0,  2.5,  2.5,  1.0,  0.5,  0.5],
+		[ 0.0,  0.0,  0.0,  2.0,  2.0,  0.0,  0.0,  0.0],
+		[ 0.5, -0.5, -1.0,  0.0,  0.0, -1.0, -0.5,  0.5],
+		[ 0.5,  1.0,  1.0,  0.0, -2.0, -2.0,  1.0,  0.5],
+		[ 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0]
+	]
+	
+	
+	
 	
 	init(viewController: ViewController) {
 		self.viewController = viewController
@@ -31,14 +99,14 @@ class ChessEngine {
 		}
 		return moves
 	}
-	func getBestMove(board: Board, depth: Int, currentDepth: Int, maximizingPlayer: Bool, alpha: Int, beta: Int) -> [Int] {
+	func getBestMove(board: Board, depth: Int, currentDepth: Int, maximizingPlayer: Bool, alpha: Double, beta: Double) -> [Double] {
 		if currentDepth == depth {
 			return [-1, -1, -1, -1, getBoardValuation(board: board.board)]
 		}
 		
 		var newAlpha = alpha
 		var newBeta = beta
-		var bestVal : Int
+		var bestVal : Double
 		var moves : [[Int]]
 		var bestMoves : [[Int]]
 		if maximizingPlayer {
@@ -67,7 +135,7 @@ class ChessEngine {
 				}
 			}
 		} else {
-			bestVal = 10000
+			bestVal = 10000.0
 			moves = getMoves(board: board, side: Side.Black)
 			if moves.count == 0 {
 				return [-1, -1, -1, -1, bestVal]
@@ -93,16 +161,17 @@ class ChessEngine {
 		}
 	
 //		print("Current Depth: \(currentDepth) Evaluation: \(bestVal) Minimize: \(getMin)")
-		var best = bestMoves[Int.random(in: 0..<bestMoves.count)]
+		var best : [Double] = bestMoves[Int.random(in: 0..<bestMoves.count)].map{ Double($0) }
 		best.append(bestVal)
 		return best
 	}
 	func makeMove(board: Board, viewController: ViewController) {
-		let alpha = -100000
-		let beta = 100000
-		let move = getBestMove(board: board, depth: 3, currentDepth: 0, maximizingPlayer: false, alpha: alpha, beta: beta)
-		if move.count == 5 && move[0] != -1 {
-			board.makeMove(oldRow: move[0], oldCol: move[1], row: move[2], col: move[3], white: viewController.GAME.white, black: viewController.GAME.black, uiViewController: viewController)
+		let alpha = -100000.0
+		let beta = 100000.0
+		var move = getBestMove(board: board, depth: 3, currentDepth: 0, maximizingPlayer: false, alpha: alpha, beta: beta)
+		move.remove(at: 4)
+		if move.count == 4 && move[0] != -1 {
+			board.makeMove(oldRow: Int(move[0]), oldCol: Int(move[1]), row: Int(move[2]), col: Int(move[3]), white: viewController.GAME.white, black: viewController.GAME.black, uiViewController: viewController)
 			board.updateBoard(game: viewController.GAME, viewController: viewController)
 		}
 	}
@@ -156,41 +225,67 @@ class ChessEngine {
 	}
 	
 	
-	func getBoardValuation(board: [[Piece]]) -> Int {
-		var value = 0
+	func getBoardValuation(board: [[Piece]]) -> Double {
+		var value = 0.0
 		for i in 0..<8 {
 			for j in 0..<8 {
-				value += getPieceValue(piece: board[i][j].getType(), side: board[i][j].getSide())
+				value += getPieceValue(piece: board[i][j], side: board[i][j].getSide())
 			}
 		}
 		return value
 	}
 	
-	func getPieceValue(piece: Pieces, side: Side) -> Int {
-		var value = -1
-		switch piece {
-			case Pieces.Knight:
-				value = 30
-			case Pieces.Pawn:
-				value = 10
-				
-			case Pieces.Rook:
-				value = 50
-			
-			case Pieces.Queen:
-				value = 90
-				
-			case Pieces.King:
-				value = 900
-			case Pieces.Bishop:
-				value = 30
-			default:
-				value = 0
-		}
+	func getPieceValue(piece: Piece, side: Side) -> Double {
+		var value = -1.0
+		let row = piece.getPosition()[0]
+		let col = piece.getPosition()[1]
 		if side == Side.Black {
-			value  *= -1
+			switch piece.getType() {
+				case Pieces.Knight:
+					value = -30
+					value += -1 * knightBoard[7-row][col]
+				case Pieces.Pawn:
+					value = -10
+					value += -1 * pawnBoard[7-row][col]
+				case Pieces.Rook:
+					value = -50
+					value += -1 * rookBoard[7-row][col]
+				case Pieces.Queen:
+					value = -90
+					value += -1 * queenBoard[7-row][col]
+				case Pieces.King:
+					value = -900
+					value += -1 * kingBoard[7-row][col]
+				case Pieces.Bishop:
+					value = -30
+					value += -1 * bishopBoard[7-row][col]
+				default:
+					value = 0
+			}
+		} else {
+			switch piece.getType() {
+				case Pieces.Knight:
+					value = 30
+					value += knightBoard[row][col]
+				case Pieces.Pawn:
+					value = 10
+					value += pawnBoard[row][col]
+				case Pieces.Rook:
+					value = 50
+					value += rookBoard[row][col]
+				case Pieces.Queen:
+					value = 90
+					value += queenBoard[row][col]
+				case Pieces.King:
+					value = 900
+					value += kingBoard[row][col]
+				case Pieces.Bishop:
+					value = 30
+					value += bishopBoard[row][col]
+				default:
+					value = 0
+			}
 		}
 		return value
-		
 	}
 }

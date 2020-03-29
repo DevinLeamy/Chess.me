@@ -110,6 +110,11 @@ class Game {
  			if !foundValidMove {
 				gameState = GameState.Finished
 				won = GameWon.CheckMate
+				if board.getTurn() == Side.White {
+					gameResult = GameResult.BlackWon
+				} else {
+					gameResult = GameResult.WhiteWon
+				}
 				return true
 			}
 		}
