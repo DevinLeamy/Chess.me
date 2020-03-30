@@ -118,7 +118,7 @@ class ViewController: UIViewController {
 		} else if selectedGameMode == GameMode.BluetoothMultiplayer && mySide != GAMEBOARD.getTurn() {
 			return
 		} else if selectedGameMode == GameMode.SinglePlayer && GAMEBOARD.getTurn() != Side.White {
-			return //In case the chess engine is still thinking of a move
+			engine.makeMove(board: GAMEBOARD, viewController: self)
 		}
 		let position = getPositionByTag(tag: sender.tag)
 		let row = position[0]
@@ -155,7 +155,7 @@ class ViewController: UIViewController {
 		}
 		GAMEBOARD.updateBoard(game: GAME, viewController: self)
 		if selectedGameMode == GameMode.SinglePlayer && GAMEBOARD.getTurn() != Side.White {
-			engine.makeMove(board: GAMEBOARD, viewController: self)
+			tileClicked(userChessBoard[0][0])
 		}
 	}
 

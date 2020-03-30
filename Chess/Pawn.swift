@@ -99,6 +99,7 @@ class Pawn: Piece {
 				}
 			}
 		}
+		nextMoves = uniq(source: nextMoves)
 	}
 	
 	func getMovedTwice() -> Bool {

@@ -39,5 +39,6 @@ class Knight: Piece {
 		if (isValidMove(oldRow: row, oldCol: col, newRow: row+1, newCol: col+2, side: self.side, board: board)) {
 			nextMoves.append([row+1, col+2])
 		}
+		nextMoves = uniq(source: nextMoves)
 	}
 }

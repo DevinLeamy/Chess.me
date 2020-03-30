@@ -72,6 +72,7 @@ class Bishop: Piece {
 				break
 			}
 		}
+		nextMoves = uniq(source: nextMoves)
 	}
 }
 

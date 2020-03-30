@@ -68,6 +68,7 @@ class King: Piece {
 			}
 			
 		}
+		nextMoves = uniq(source: nextMoves)
 	}
 	func getCanCastle() -> Bool {
 		return canCastle
@@ -266,6 +267,17 @@ class King: Piece {
 				}
 			} else {
 				break
+			}
+		}
+		
+		for i in row-1...row+1 {
+			for j in col-1...col+1 {
+				if gameBoard.isOnBoard(i, j) {
+					let pieceInQuestion = gameBoard.board[i][j]
+					if pieceInQuestion.getType() == Pieces.King && pieceInQuestion.getSide() != kingSide {
+						return true
+					}
+				}
 			}
 		}
 		//Not in check

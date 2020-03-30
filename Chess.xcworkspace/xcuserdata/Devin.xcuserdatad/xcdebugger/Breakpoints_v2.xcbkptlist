@@ -62,9 +62,9 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
-            landmarkName = "getBestMove(board:depth:currentDepth:maximizingPlayer:alpha:beta:)"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
+            landmarkName = "getBestMove(board:depth:currentDepth:maximizingPlayer:alpha:beta:currentBest:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -78,8 +78,8 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
             landmarkName = "makeMove(board:viewController:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "Chess/ChessEngine.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
             landmarkName = "makeMove(board:viewController:)"
             landmarkType = "7">
          </BreakpointContent>

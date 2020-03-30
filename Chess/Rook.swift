@@ -73,6 +73,7 @@ class Rook: Piece {
 				break
 			}
 		}
+		nextMoves = uniq(source: nextMoves)
 	}
 	
 	func getCanCastle() -> Bool {

@@ -131,6 +131,7 @@ class Queen: Piece {
 				break
 			}
 		}
+		nextMoves = uniq(source: nextMoves)
 	}
 }
 

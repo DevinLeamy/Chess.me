@@ -30,7 +30,7 @@ class ChessEngine {
 		[-0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
 		[-0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
 		[-0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
-		[-1.0,  0.0,  0.5,  1.0,  1.0,  0.5,  0.0, -1.0] // ORIGINAL: 	[ 0.0,  0.0,  0.0,  0.5,  0.5,  0.0,  0.0,  0.0]
+		[ 0.0,  0.0,  0.5,  1.0,  1.0,  0.5,  0.0,  0.0] // ORIGINAL: 	[ 0.0,  0.0,  0.0,  0.5,  0.5,  0.0,  0.0,  0.0]
 	]
 	
 	let knightBoard = [
@@ -73,7 +73,7 @@ class ChessEngine {
 		[ 0.5,  0.5,  1.0,  2.5,  2.5,  1.0,  0.5,  0.5],
 		[ 0.0,  0.0,  0.0,  2.0,  2.0,  0.0,  0.0,  0.0],
 		[ 0.5, -0.5, -1.0,  0.0,  0.0, -1.0, -0.5,  0.5],
-		[ 0.5,  1.0,  1.0,  0.0, -2.0, -2.0,  1.0,  0.5],
+		[ 0.5,  1.0,  1.0, -2.0, -2.0,  1.0,  1.0,  0.5],
 		[ 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0]
 	]
 	
@@ -99,38 +99,59 @@ class ChessEngine {
 		}
 		return moves
 	}
-	func getBestMove(board: Board, depth: Int, currentDepth: Int, maximizingPlayer: Bool, alpha: Double, beta: Double) -> [Double] {
+	func getBestMove(board: Board, depth: Int, currentDepth: Int, maximizingPlayer: Bool, alpha: Double, beta: Double, currentBest: [Int]?) -> [Double] {
 		if currentDepth == depth {
 			return [-1, -1, -1, -1, getBoardValuation(board: board.board)]
 		}
 		
-		var newAlpha = alpha
-		var newBeta = beta
+		var alpha = alpha
+		var beta = beta
 		var bestVal : Double
 		var moves : [[Int]]
-		var bestMoves : [[Int]]
+		var bestMoves : [[Int]] = []
+		var movesInOrder : [[Double]] = []
+		
+		if let curBest = currentBest {
+			bestVal = 10000.0
+			var boardCopy = getCopyOfBoard(board.board)
+			boardCopy =  makeFieldingMove(move: curBest, board: &boardCopy)
+			let newBoard = Board(userChessBoard: getCopyOfBoard(&board.userChessBoard), verticalStackView: viewController.verticalStackView)
+			newBoard.board = getCopyOfBoard(boardCopy)
+//			let eval = getBestMove(board: newBoard, depth: depth, currentDepth: currentDepth + 1, maximizingPlayer: !maximizingPlayer, alpha: alpha, beta: beta, currentBest: nil)[4]
+			let eval = getBestMove(board: newBoard, depth: depth, currentDepth: currentDepth + 1, maximizingPlayer: !maximizingPlayer, alpha: alpha, beta: beta, currentBest: nil)[4]
+			
+			if eval == bestVal {
+				bestMoves.append(curBest)
+			} else if eval < bestVal {
+				bestVal = eval
+				bestMoves = [curBest]
+			}
+			beta = min(beta, bestVal)
+		}
+		
+		
 		if maximizingPlayer {
-			bestVal = -10000
+			bestVal = -10000.0
 			moves = getMoves(board: board, side: Side.White)
 			if moves.count == 0 {
 				return [-1, -1, -1, -1, bestVal]
 			}
-			bestMoves = [moves[0]]
 			for move in moves {
-				var boardCopy = getCopyOfBoard(board)
-				boardCopy =  makeFieldingMove(move: move, board: &boardCopy)
+				var boardCopy = getCopyOfBoard(board.board)
+				boardCopy = makeFieldingMove(move: move, board: &boardCopy)
 				let newBoard = Board(userChessBoard: getCopyOfBoard(&board.userChessBoard), verticalStackView: viewController.verticalStackView)
-				newBoard.board = boardCopy
-				let eval = getBestMove(board: newBoard, depth: depth, currentDepth: currentDepth + 1, maximizingPlayer: !maximizingPlayer, alpha: newAlpha, beta: newBeta)[4]
+				newBoard.board = getCopyOfBoard(boardCopy)
+//				let eval = getBestMove(board: newBoard, depth: depth, currentDepth: currentDepth + 1, maximizingPlayer: !maximizingPlayer, alpha: alpha, beta: beta, currentBest: nil)[4]
+				let eval = getBestMove(board: newBoard, depth: depth, currentDepth: currentDepth + 1, maximizingPlayer: !maximizingPlayer, alpha: alpha, beta: beta, currentBest: nil)[4]
+				movesInOrder.append([eval, Double(move[0]), Double(move[1]), Double(move[2]), Double(move[3])])
 				if eval == bestVal {
 					bestMoves.append(move)
 				} else if eval > bestVal {
 					bestVal = eval
 					bestMoves = [move]
 				}
-				newAlpha = max(newAlpha, bestVal)
-				
-				if newBeta <= newAlpha {
+				alpha = max(alpha, bestVal)
+				if beta <= alpha {
 					break
 				}
 			}
@@ -140,35 +161,57 @@ class ChessEngine {
 			if moves.count == 0 {
 				return [-1, -1, -1, -1, bestVal]
 			}
-			bestMoves = [moves[0]]
 			for move in moves {
-				var boardCopy = getCopyOfBoard(board)
+				var boardCopy = getCopyOfBoard(board.board)
 				boardCopy =  makeFieldingMove(move: move, board: &boardCopy)
 				let newBoard = Board(userChessBoard: getCopyOfBoard(&board.userChessBoard), verticalStackView: viewController.verticalStackView)
-				newBoard.board = boardCopy
-				let eval = getBestMove(board: newBoard, depth: depth, currentDepth: currentDepth + 1, maximizingPlayer: !maximizingPlayer, alpha: alpha, beta: beta)[4]
+				newBoard.board = getCopyOfBoard(boardCopy)
+//				let eval = getBestMove(board: newBoard, depth: depth, currentDepth: currentDepth + 1, maximizingPlayer: !maximizingPlayer, alpha: alpha, beta: beta, currentBest: nil)[4]
+				let eval = getBestMove(board: newBoard, depth: depth, currentDepth: currentDepth + 1, maximizingPlayer: !maximizingPlayer, alpha: alpha, beta: beta, currentBest: nil)[4]
+				movesInOrder.append([eval, Double(move[0]), Double(move[1]), Double(move[2]), Double(move[3])])
 				if eval == bestVal {
 					bestMoves.append(move)
 				} else if eval < bestVal {
 					bestVal = eval
 					bestMoves = [move]
 				}
-				newBeta = min(newBeta, bestVal)
-				if newBeta <= newAlpha {
+				beta = min(beta, bestVal)
+				if beta <= alpha {
 					break
 				}
 			}
 		}
 	
 //		print("Current Depth: \(currentDepth) Evaluation: \(bestVal) Minimize: \(getMin)")
-		var best : [Double] = bestMoves[Int.random(in: 0..<bestMoves.count)].map{ Double($0) }
+		if currentDepth == 0 {
+			var i = movesInOrder.count
+			while i != 0 {
+				var index = -1
+				var smallest = 100000.0
+				var move : [Double] = []
+				for j in 0..<movesInOrder.count {
+					if movesInOrder[j][0] < smallest {
+						smallest = movesInOrder[j][0]
+						index = j
+						move = movesInOrder[j]
+					}
+				}
+				print(move)
+				movesInOrder.remove(at: index)
+				i -= 1
+			}
+			print("**********\n**********\n**********\n**********\n**********\n**********\n**********\n**********\n**********\n**********\n")
+		}
+//		var best : [Double] = bestMoves[Int.random(in: 0..<bestMoves.count)].map{ Double($0) }
+		var best : [Double] = bestMoves[0].map{ Double($0) }
 		best.append(bestVal)
 		return best
 	}
 	func makeMove(board: Board, viewController: ViewController) {
-		let alpha = -100000.0
-		let beta = 100000.0
-		var move = getBestMove(board: board, depth: 3, currentDepth: 0, maximizingPlayer: false, alpha: alpha, beta: beta)
+		let alpha = -10000.0
+		let beta = 10000.0
+//		var move = getBestMove(board: board, depth: 3, currentDepth: 0, maximizingPlayer: false, alpha: alpha, beta: beta, currentBest: [ Int(IIDMove[0]), Int(IIDMove[1]), Int(IIDMove[2]), Int(IIDMove[3])])
+		var move = getBestMove(board: board, depth: 3, currentDepth: 0, maximizingPlayer: false, alpha: alpha, beta: beta, currentBest: nil)
 		move.remove(at: 4)
 		if move.count == 4 && move[0] != -1 {
 			board.makeMove(oldRow: Int(move[0]), oldCol: Int(move[1]), row: Int(move[2]), col: Int(move[3]), white: viewController.GAME.white, black: viewController.GAME.black, uiViewController: viewController)
@@ -176,12 +219,12 @@ class ChessEngine {
 		}
 	}
 	
-	func getCopyOfBoard(_ board: Board) -> [[Piece]] {
+	func getCopyOfBoard(_ board: [[Piece]]) -> [[Piece]] {
 		var newBoard : [[Piece]] = []
 		for i in 0..<8 {
 			var row : [Piece] = []
 			for j in 0..<8 {
-				row.append(copyPiece(board.board[i][j]))
+				row.append(copyPiece(board[i][j]))
 			}
 			newBoard.append(row)
 		}
@@ -288,4 +331,6 @@ class ChessEngine {
 		}
 		return value
 	}
+	//Create transposition table using hashmap store positions in a 64 character string
+	
 }
