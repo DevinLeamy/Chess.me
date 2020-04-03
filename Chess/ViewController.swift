@@ -93,13 +93,14 @@ class ViewController: UIViewController {
 		toolBar.sizeToFit()
 		toolBar.barTintColor = UIColor.white
 		
-		if selectedGameMode == GameMode.BluetoothMultiplayer {
-			if isHost {
-				mySide = Side.White
-			} else {
-				mySide = Side.Black
-			}
-		}
+		//Commented out for testing
+//		if selectedGameMode == GameMode.BluetoothMultiplayer {
+//			if isHost {
+//				mySide = Side.White
+//			} else {
+//				mySide = Side.Black
+//			}
+//		}
 		
 	}
 	func getButtonsFromStackView() -> Void {
@@ -233,17 +234,18 @@ class ViewController: UIViewController {
 	}
 	
 	func sendMove(move: [Int]) {
-		if mcSession.connectedPeers.count > 0 {
-			let moveData =  Data(buffer: UnsafeBufferPointer(start: move, count: move.count))
-			do {
-				try mcSession.send(moveData, toPeers: mcSession.connectedPeers, with: .reliable)
-			} catch let error as NSError {
-				let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
-				ac.addAction(UIAlertAction(title: "OK", style: .default))
-				present(ac, animated: true)
-			}
-			
-		}
+		//Commented out for testing
+//		if mcSession.connectedPeers.count > 0 {
+//			let moveData =  Data(buffer: UnsafeBufferPointer(start: move, count: move.count))
+//			do {
+//				try mcSession.send(moveData, toPeers: mcSession.connectedPeers, with: .reliable)
+//			} catch let error as NSError {
+//				let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
+//				ac.addAction(UIAlertAction(title: "OK", style: .default))
+//				present(ac, animated: true)
+//			}
+//
+//		}
 	}
 
 }

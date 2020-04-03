@@ -21,10 +21,6 @@ extension NSMutableAttributedString {
 		}
 	}
 }
-var peerID: MCPeerID!
-var mcSession: MCSession!
-var mcAdvertiserAssistant: MCAdvertiserAssistant!
-var isHost = false
 
 class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
 	@IBOutlet var decorationImage: UIImageView!
@@ -37,6 +33,10 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	var gameModes: [String] = [String]()
 	var chessQuotes: [[String]] = [[String]]()
 	var currentRow = 0
+	var peerID: MCPeerID!
+	var mcSession: MCSession!
+	var mcAdvertiserAssistant: MCAdvertiserAssistant!
+	var isHost = false
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -53,12 +53,12 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		introBackgroundView.layer.contents = (INTRO_BACKGROUND_IMAGE).cgImage
 		
 		changeGameModebtn.layer.cornerRadius = 20
-		changeGameModebtn.layer.backgroundColor = UIColor.white.cgColor // UIColor.black.cgColor// original color
+		changeGameModebtn.layer.backgroundColor = UIColor.white.cgColor
 		
 		
 		playButton.clipsToBounds = true
 		playButton.layer.cornerRadius = 30
-		playButton.layer.backgroundColor = PINK_COLOR.cgColor // UIColor.black.cgColor// original color
+		playButton.layer.backgroundColor = UIColor.black.cgColor // PINK_COLOR.cgColor// original color
 		playButton.layer.borderWidth = 20
 		playButton.layer.borderColor = UIColor.white.cgColor
 		
@@ -104,10 +104,10 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 				selectedGameMode = GameMode.SinglePlayer
                         case gameModes[1]:
 				selectedGameMode = GameMode.BluetoothMultiplayer
-				let alert = UIAlertController(title: "Play.bluetooth", message: "Join or Host a Game Session", preferredStyle: .alert)
-				alert.addAction(UIAlertAction(title: NSLocalizedString("Join", comment: "Default action"), style: .default, handler: joinSession))
-				alert.addAction(UIAlertAction(title: NSLocalizedString("Host", comment: "Default action"), style: .default, handler: startHosting))
-				alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Default action"), style: .cancel, handler: stopBluetooth))
+				let alert = UIAlertController(title: "Play.bluetooth", message: "Join or Host a Game Session", preferredStyle: .actionSheet)
+				alert.addAction(UIAlertAction(title: "Join", style: .default, handler: joinSession))
+				alert.addAction(UIAlertAction(title: "Host", style: .default, handler: startHosting))
+				alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: stopBluetooth))
 				self.present(alert, animated: true, completion: nil)
                         case gameModes[2]:
 				selectedGameMode = GameMode.Multiplayer
@@ -142,7 +142,6 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	
 	//MPConnectivity
 	func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-		
 		  switch state {
 			  case MCSessionState.connected:
 			      print("Connected: \(peerID.displayName)")
@@ -158,7 +157,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	}
 	
 	func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-		
+	
 	}
 	
 	func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -172,6 +171,10 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
 
 	}
+	
+	func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
+		print("Received and invation from \(peerID)")
+	}
 
 	func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
 		dismiss(animated: true)
@@ -182,18 +185,16 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	}
 	
 	func startHosting(action: UIAlertAction!) {
-		isHost = true
-		guard let mcSession = mcSession else { return }
-		mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "Chess", discoveryInfo: nil, session: mcSession)
-		mcAdvertiserAssistant?.start()
+		self.mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "Chess", discoveryInfo: nil, session: self.mcSession)
+		self.mcAdvertiserAssistant.start()
+		self.isHost = true
 	}
 
 	func joinSession(action: UIAlertAction!) {
-		isHost = false
-		guard let mcSession = mcSession else { return }
-		let mcBrowser = MCBrowserViewController(serviceType: "Chess", session: mcSession)
+		let mcBrowser = MCBrowserViewController(serviceType: "Chess", session: self.mcSession)
 		mcBrowser.delegate = self
-		present(mcBrowser, animated: true)
+		self.present(mcBrowser, animated: true)
+		isHost = false
 	}
 	
 	func stopBluetooth(_ : UIAlertAction?) {
@@ -210,6 +211,15 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
 		mcSession.delegate = self
 	}
+	
+//	 func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
+//		browser.invitePeer(peerID, to: mcSession, withContext: nil, timeout: 10)
+//		print("Peer \(peerID) has been invited to a session")
+//	}
+//
+//	func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
+//		print("Peer \(peerID) has been kicked? from a session")
+//	}
 
     /*
     // MARK: - Navigation
