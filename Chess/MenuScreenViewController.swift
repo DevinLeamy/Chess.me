@@ -46,7 +46,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		
 		
 //		introHeaderlbl.layer.backgroundColor = UIColor.lightGray.cgColor
-		introHeaderlbl.layer.borderColor = UIColor.black.cgColor
+		introHeaderlbl.layer.borderColor = UIColor.white.cgColor
 		introHeaderlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: CGFloat(90.adjustedWidth))
 //		introHeaderlbl.layer.borderWidth = 5
 		
@@ -61,6 +61,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		playButton.layer.backgroundColor = UIColor.black.cgColor // PINK_COLOR.cgColor// original color
 		playButton.layer.borderWidth = 20
 		playButton.layer.borderColor = UIColor.white.cgColor
+
 		
 //		displayGameModelbl.layer.backgroundColor = UIColor.lightGray.cgColor
 //		displayGameModelbl.layer.borderColor = UIColor.black.cgColor
@@ -75,7 +76,9 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 //		decorationImage.layer.cornerRadius = 125
 		
 		displayQuotelbl.textColor = UIColor.black
-		displayQuotelbl.font = UIFont(name: "HelveticaNeue-LightItalic", size: 20.adjustedWidth)
+//		displayQuotelbl.backgroundColor = UIColor.white
+		displayQuotelbl.layer.cornerRadius = 10
+		displayQuotelbl.font = UIFont(name: "HelveticaNeue-LightItalic", size: 23.adjustedWidth)
 		displayQuotelbl.lineBreakMode = NSLineBreakMode.byWordWrapping
 		displayQuotelbl.numberOfLines = 4
 		
