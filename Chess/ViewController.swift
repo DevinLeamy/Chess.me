@@ -48,6 +48,8 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		
+		
 		//Gets the buttons from the stackView and transfers them to an array
 		getButtonsFromStackView()
 	
@@ -235,18 +237,25 @@ class ViewController: UIViewController {
 	
 	func sendMove(move: [Int]) {
 		//Commented out for testing
-//		if mcSession.connectedPeers.count > 0 {
-//			let moveData =  Data(buffer: UnsafeBufferPointer(start: move, count: move.count))
-//			do {
-//				try mcSession.send(moveData, toPeers: mcSession.connectedPeers, with: .reliable)
-//			} catch let error as NSError {
-//				let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
-//				ac.addAction(UIAlertAction(title: "OK", style: .default))
-//				present(ac, animated: true)
-//			}
-//
-//		}
-	}
+		if mcSession.connectedPeers.count > 0 {
+			let moveData =  Data(buffer: UnsafeBufferPointer(start: move, count: move.count))
+			do {
+				try mcSession.send(moveData, toPeers: mcSession.connectedPeers, with: .reliable)
+			} catch let error as NSError {
+				let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
+				ac.addAction(UIAlertAction(title: "OK", style: .default))
+				present(ac, animated: true)
+			}
 
+		}
+	}
+	
+	//Restrict ViewController rotation
+	override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+	    get {
+		return .portrait
+
+	    }
+	}
 }
 

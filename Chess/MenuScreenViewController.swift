@@ -22,6 +22,11 @@ extension NSMutableAttributedString {
 	}
 }
 
+var peerID: MCPeerID!
+var mcSession: MCSession!
+var mcAdvertiserAssistant: MCAdvertiserAssistant!
+var isHost = false
+
 class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
 	@IBOutlet var decorationImage: UIImageView!
 	@IBOutlet var changeGameModebtn: UIButton!
@@ -33,12 +38,9 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	var gameModes: [String] = [String]()
 	var chessQuotes: [[String]] = [[String]]()
 	var currentRow = 0
-	var peerID: MCPeerID!
-	var mcSession: MCSession!
-	var mcAdvertiserAssistant: MCAdvertiserAssistant!
-	var isHost = false
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
 		
 		peerID = MCPeerID(displayName: UIDevice.current.name)
 		mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .optional)
@@ -185,13 +187,13 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	}
 	
 	func startHosting(action: UIAlertAction!) {
-		self.mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "Chess", discoveryInfo: nil, session: self.mcSession)
-		self.mcAdvertiserAssistant.start()
-		self.isHost = true
+		mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "Chess", discoveryInfo: nil, session: mcSession)
+		mcAdvertiserAssistant.start()
+		isHost = true
 	}
 
 	func joinSession(action: UIAlertAction!) {
-		let mcBrowser = MCBrowserViewController(serviceType: "Chess", session: self.mcSession)
+		let mcBrowser = MCBrowserViewController(serviceType: "Chess", session: mcSession)
 		mcBrowser.delegate = self
 		self.present(mcBrowser, animated: true)
 		isHost = false
@@ -212,14 +214,24 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		mcSession.delegate = self
 	}
 	
-//	 func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
-//		browser.invitePeer(peerID, to: mcSession, withContext: nil, timeout: 10)
-//		print("Peer \(peerID) has been invited to a session")
-//	}
-//
-//	func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-//		print("Peer \(peerID) has been kicked? from a session")
-//	}
+	 func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
+		browser.invitePeer(peerID, to: mcSession, withContext: nil, timeout: 10)
+		print("Peer \(peerID) has been invited to a session")
+	}
+
+	func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
+		print("Peer \(peerID) has been kicked? from a session")
+	}
+	
+	
+	
+	//Restrict ViewController rotation
+	override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+	    get {
+		return .portrait
+
+	    }
+	}
 
     /*
     // MARK: - Navigation
