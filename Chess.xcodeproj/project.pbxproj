@@ -28,6 +28,7 @@
 		0353149F24241A5E001B7915 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0353149E24241A5E001B7915 /* Game.swift */; };
 		035314AB2425AD94001B7915 /* MenuScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035314AA2425AD94001B7915 /* MenuScreenViewController.swift */; };
 		03882B1F242DA0BC00EAFBD5 /* ChessEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03882B1E242DA0BC00EAFBD5 /* ChessEngine.swift */; };
+		03882B232438DD0D00EAFBD5 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03882B222438DD0D00EAFBD5 /* Device.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		0353149E24241A5E001B7915 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		035314AA2425AD94001B7915 /* MenuScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreenViewController.swift; sourceTree = "<group>"; };
 		03882B1E242DA0BC00EAFBD5 /* ChessEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessEngine.swift; sourceTree = "<group>"; };
+		03882B222438DD0D00EAFBD5 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				035314AA2425AD94001B7915 /* MenuScreenViewController.swift */,
 				03882B1E242DA0BC00EAFBD5 /* ChessEngine.swift */,
 				035314842423E197001B7915 /* Piece.swift */,
+				03882B222438DD0D00EAFBD5 /* Device.swift */,
 				035314862423E2FA001B7915 /* Knight.swift */,
 				0353148A2423E471001B7915 /* Rook.swift */,
 				035314962423E750001B7915 /* Blank.swift */,
@@ -195,6 +198,7 @@
 				03882B1F242DA0BC00EAFBD5 /* ChessEngine.swift in Sources */,
 				035314872423E2FA001B7915 /* Knight.swift in Sources */,
 				0353149F24241A5E001B7915 /* Game.swift in Sources */,
+				03882B232438DD0D00EAFBD5 /* Device.swift in Sources */,
 				035314972423E750001B7915 /* Blank.swift in Sources */,
 				035314992423F158001B7915 /* Team.swift in Sources */,
 				035314952423E68D001B7915 /* Board.swift in Sources */,

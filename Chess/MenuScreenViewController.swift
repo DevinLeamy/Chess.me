@@ -40,8 +40,6 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	var currentRow = 0
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		
 		peerID = MCPeerID(displayName: UIDevice.current.name)
 		mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .optional)
 		mcSession.delegate = self
@@ -49,7 +47,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		
 //		introHeaderlbl.layer.backgroundColor = UIColor.lightGray.cgColor
 		introHeaderlbl.layer.borderColor = UIColor.black.cgColor
-		introHeaderlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 90)
+		introHeaderlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: CGFloat(90.adjustedWidth))
 //		introHeaderlbl.layer.borderWidth = 5
 		
 		introBackgroundView.layer.contents = (INTRO_BACKGROUND_IMAGE).cgImage
@@ -66,7 +64,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		
 //		displayGameModelbl.layer.backgroundColor = UIColor.lightGray.cgColor
 //		displayGameModelbl.layer.borderColor = UIColor.black.cgColor
-		displayGameModelbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 50)
+		displayGameModelbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 50.adjustedWidth)
 		let text = NSMutableAttributedString(string: "Play.me")
 		text.setColorForText("Play", with: UIColor.white)
 		text.setColorForText(".me", with: UIColor.black)
@@ -74,9 +72,10 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 //		displayGameModelbl.layer.borderWidth = 2
 		
 		decorationImage.image = DECORATION_IMAGE //X = 11, Y = 179
+//		decorationImage.layer.cornerRadius = 125
 		
 		displayQuotelbl.textColor = UIColor.black
-		displayQuotelbl.font = UIFont(name: "HelveticaNeue-LightItalic", size: 20)
+		displayQuotelbl.font = UIFont(name: "HelveticaNeue-LightItalic", size: 20.adjustedWidth)
 		displayQuotelbl.lineBreakMode = NSLineBreakMode.byWordWrapping
 		displayQuotelbl.numberOfLines = 4
 		

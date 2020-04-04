@@ -175,8 +175,8 @@ class ViewController: UIViewController {
 				GAMEBOARD.userChessBoard[i][j].addTarget(self, action: #selector(tileClicked), for: UIControl.Event.touchUpInside)
 				
 				//Makes the size of the tiles fixed
-				GAMEBOARD.userChessBoard[i][j].widthAnchor.constraint(equalToConstant: 50).isActive = true
-				GAMEBOARD.userChessBoard[i][j].heightAnchor.constraint(equalToConstant: 50).isActive = true
+				GAMEBOARD.userChessBoard[i][j].widthAnchor.constraint(equalToConstant: 50.adjustedWidth).isActive = true
+				GAMEBOARD.userChessBoard[i][j].heightAnchor.constraint(equalToConstant: 50.adjustedWidth).isActive = true
 				
 				let buttonImage = GAMEBOARD.getImageFor(piece: GAMEBOARD.board[i][j])
 				if (current) {
