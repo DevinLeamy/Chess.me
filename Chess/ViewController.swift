@@ -9,7 +9,7 @@
 import UIKit
 import MultipeerConnectivity
 
-let WHITE_TILE_IMAGE = UIImage(named: "LightWoodTile")!
+let WHITE_TILE_IMAGE = UIImage(named: "LightWoodTile(1)")!
 let BLACK_TILE_IMAGE = UIImage(named: "DarkWoodTile(2)")!
 let BLACK_KING_IMAGE = UIImage(named: "BlackKing")!
 let WHITE_KING_IMAGE = UIImage(named: "WhiteKing")!
@@ -27,7 +27,8 @@ let BLANK_IMAGE = UIImage(named: "Blank")!
 let RED_TILE_IMAGE = UIImage(named: "RedTile")!
 let BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(3)")!
 let RETRY_LOGO_IMAGE = UIImage(named: "RetryLogo(1)")!
-let VISITED_TILE_IMAGE = UIImage(named: "DarkWoodTile(3)")
+let VISITED_TILE_IMAGE = UIImage(named: "DarkWoodTile(4)")!
+let POSSIBLE_MOVES_TILE_IMAGE = UIImage(named: "DarkWoodTile(3)")!
 let FLIPBOARD_LOGO_IMAGE = UIImage(named: "FlipLogo(2)")!
 
 class ViewController: UIViewController {

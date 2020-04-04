@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 class Board {
 	var board: [[Piece]] = Array(repeating: Array(repeating: Piece(currentRow: -1, currentCol: -1, side: Side.Blank, type: Pieces.Blank), count: 8), count: 8)
@@ -21,6 +22,7 @@ class Board {
 	var movesPlayed = 0
 	var tileSelected: Bool = false
 	var selectedTile: [Int] = [-1, -1]
+	var audioPlayer = AVAudioPlayer()
 	init(userChessBoard: [[UIButton]], verticalStackView: UIStackView?) {
 		if (verticalStackView != nil) {
 			self.verticalStackView = verticalStackView!
@@ -215,6 +217,8 @@ class Board {
 			let viewController = (uiViewController as! ViewController)
 			viewController.sendMove(move: [oldRow, oldCol, row, col])
 		}
+		
+		playMadeMoveSound()
 	}
 	
 	func isOnBoard(_ row: Int, _ col: Int) -> Bool {
@@ -258,7 +262,7 @@ class Board {
 			for move in pieceSelected.getNextMoves() {
 				if move.count == 0 {continue}
 				if theme == Theme.Rustic {
-					userChessBoard[move[0]][move[1]].setBackgroundImage(VISITED_TILE_IMAGE, for: UIControl.State.normal)
+					userChessBoard[move[0]][move[1]].setBackgroundImage(POSSIBLE_MOVES_TILE_IMAGE, for: UIControl.State.normal)
 				} else {
 					userChessBoard[move[0]][move[1]].backgroundColor = UIColor.lightGray
 				}
@@ -407,6 +411,22 @@ class Board {
 					}
 				}
 			} while (currentRow != newRow || currentCol != newCol);
+		}
+	}
+	
+	
+	//Play sound if any generic move is made
+	func playMadeMoveSound() -> Void {
+		let path = Bundle.main.path(forResource: "PieceMovedSound(3).wav", ofType: nil)!
+		let url = URL(fileURLWithPath: path)
+		
+		
+		do {
+		    //create your audioPlayer in your parent class as a property
+			audioPlayer = try AVAudioPlayer(contentsOf: url)
+			audioPlayer.play()
+		} catch {
+			print("ERROR: Unable to play made move sound")
 		}
 	}
 }

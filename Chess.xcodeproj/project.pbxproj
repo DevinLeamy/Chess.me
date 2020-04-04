@@ -29,6 +29,9 @@
 		035314AB2425AD94001B7915 /* MenuScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035314AA2425AD94001B7915 /* MenuScreenViewController.swift */; };
 		03882B1F242DA0BC00EAFBD5 /* ChessEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03882B1E242DA0BC00EAFBD5 /* ChessEngine.swift */; };
 		03882B232438DD0D00EAFBD5 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03882B222438DD0D00EAFBD5 /* Device.swift */; };
+		03882B272438F52900EAFBD5 /* PieceMovedSound(1).wav in Resources */ = {isa = PBXBuildFile; fileRef = 03882B252438F52900EAFBD5 /* PieceMovedSound(1).wav */; };
+		03882B282438F52900EAFBD5 /* PieceMovedSound(2).wav in Resources */ = {isa = PBXBuildFile; fileRef = 03882B262438F52900EAFBD5 /* PieceMovedSound(2).wav */; };
+		03882B2A2438F77A00EAFBD5 /* PieceMovedSound(3).wav in Resources */ = {isa = PBXBuildFile; fileRef = 03882B292438F77A00EAFBD5 /* PieceMovedSound(3).wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +59,9 @@
 		035314AA2425AD94001B7915 /* MenuScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreenViewController.swift; sourceTree = "<group>"; };
 		03882B1E242DA0BC00EAFBD5 /* ChessEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessEngine.swift; sourceTree = "<group>"; };
 		03882B222438DD0D00EAFBD5 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		03882B252438F52900EAFBD5 /* PieceMovedSound(1).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "PieceMovedSound(1).wav"; sourceTree = "<group>"; };
+		03882B262438F52900EAFBD5 /* PieceMovedSound(2).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "PieceMovedSound(2).wav"; sourceTree = "<group>"; };
+		03882B292438F77A00EAFBD5 /* PieceMovedSound(3).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "PieceMovedSound(3).wav"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +110,7 @@
 				035314902423E512001B7915 /* Bishop.swift */,
 				035314922423E525001B7915 /* King.swift */,
 				035314942423E68D001B7915 /* Board.swift */,
+				03882B242438F4D400EAFBD5 /* Sound Effects */,
 				035314982423F158001B7915 /* Team.swift */,
 				0353149E24241A5E001B7915 /* Game.swift */,
 				035314882423E3D8001B7915 /* Enums.swift */,
@@ -114,6 +121,16 @@
 				0353147E2423E128001B7915 /* Info.plist */,
 			);
 			path = Chess;
+			sourceTree = "<group>";
+		};
+		03882B242438F4D400EAFBD5 /* Sound Effects */ = {
+			isa = PBXGroup;
+			children = (
+				03882B252438F52900EAFBD5 /* PieceMovedSound(1).wav */,
+				03882B292438F77A00EAFBD5 /* PieceMovedSound(3).wav */,
+				03882B262438F52900EAFBD5 /* PieceMovedSound(2).wav */,
+			);
+			path = "Sound Effects";
 			sourceTree = "<group>";
 		};
 		9944459AB4031C4C31EE2CEF /* Pods */ = {
@@ -182,8 +199,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0353149D24241270001B7915 /* Notes.rtf in Resources */,
+				03882B282438F52900EAFBD5 /* PieceMovedSound(2).wav in Resources */,
 				0353147D2423E128001B7915 /* LaunchScreen.storyboard in Resources */,
 				0353147A2423E128001B7915 /* Assets.xcassets in Resources */,
+				03882B272438F52900EAFBD5 /* PieceMovedSound(1).wav in Resources */,
+				03882B2A2438F77A00EAFBD5 /* PieceMovedSound(3).wav in Resources */,
 				035314782423E125001B7915 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
