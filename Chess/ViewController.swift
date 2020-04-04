@@ -30,6 +30,11 @@ let RETRY_LOGO_IMAGE = UIImage(named: "RetryLogo(1)")!
 let VISITED_TILE_IMAGE = UIImage(named: "DarkWoodTile(4)")!
 let POSSIBLE_MOVES_TILE_IMAGE = UIImage(named: "DarkWoodTile(3)")!
 let FLIPBOARD_LOGO_IMAGE = UIImage(named: "FlipLogo(2)")!
+let GENERIC_MOVE_SOUND = "PieceMovedSound(3).wav"
+let PUT_IN_CHECK_SOUND = "PieceInCheckSound(2).wav"
+let PIECE_CAPTURED_SOUND = "PieceInCheckSound(1).wav"
+//let GAMEOVER_SOUND = ""
+
 
 class ViewController: UIViewController {
 	//Outlets

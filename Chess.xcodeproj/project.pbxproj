@@ -32,6 +32,8 @@
 		03882B272438F52900EAFBD5 /* PieceMovedSound(1).wav in Resources */ = {isa = PBXBuildFile; fileRef = 03882B252438F52900EAFBD5 /* PieceMovedSound(1).wav */; };
 		03882B282438F52900EAFBD5 /* PieceMovedSound(2).wav in Resources */ = {isa = PBXBuildFile; fileRef = 03882B262438F52900EAFBD5 /* PieceMovedSound(2).wav */; };
 		03882B2A2438F77A00EAFBD5 /* PieceMovedSound(3).wav in Resources */ = {isa = PBXBuildFile; fileRef = 03882B292438F77A00EAFBD5 /* PieceMovedSound(3).wav */; };
+		03882B2C2438FD0B00EAFBD5 /* PieceInCheckSound(1).wav in Resources */ = {isa = PBXBuildFile; fileRef = 03882B2B2438FD0B00EAFBD5 /* PieceInCheckSound(1).wav */; };
+		03882B2E2439000B00EAFBD5 /* PieceInCheckSound(2).wav in Resources */ = {isa = PBXBuildFile; fileRef = 03882B2D2439000B00EAFBD5 /* PieceInCheckSound(2).wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +64,8 @@
 		03882B252438F52900EAFBD5 /* PieceMovedSound(1).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "PieceMovedSound(1).wav"; sourceTree = "<group>"; };
 		03882B262438F52900EAFBD5 /* PieceMovedSound(2).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "PieceMovedSound(2).wav"; sourceTree = "<group>"; };
 		03882B292438F77A00EAFBD5 /* PieceMovedSound(3).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "PieceMovedSound(3).wav"; sourceTree = "<group>"; };
+		03882B2B2438FD0B00EAFBD5 /* PieceInCheckSound(1).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "PieceInCheckSound(1).wav"; sourceTree = "<group>"; };
+		03882B2D2439000B00EAFBD5 /* PieceInCheckSound(2).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "PieceInCheckSound(2).wav"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +130,9 @@
 		03882B242438F4D400EAFBD5 /* Sound Effects */ = {
 			isa = PBXGroup;
 			children = (
+				03882B2B2438FD0B00EAFBD5 /* PieceInCheckSound(1).wav */,
 				03882B252438F52900EAFBD5 /* PieceMovedSound(1).wav */,
+				03882B2D2439000B00EAFBD5 /* PieceInCheckSound(2).wav */,
 				03882B292438F77A00EAFBD5 /* PieceMovedSound(3).wav */,
 				03882B262438F52900EAFBD5 /* PieceMovedSound(2).wav */,
 			);
@@ -200,6 +206,8 @@
 			files = (
 				0353149D24241270001B7915 /* Notes.rtf in Resources */,
 				03882B282438F52900EAFBD5 /* PieceMovedSound(2).wav in Resources */,
+				03882B2E2439000B00EAFBD5 /* PieceInCheckSound(2).wav in Resources */,
+				03882B2C2438FD0B00EAFBD5 /* PieceInCheckSound(1).wav in Resources */,
 				0353147D2423E128001B7915 /* LaunchScreen.storyboard in Resources */,
 				0353147A2423E128001B7915 /* Assets.xcassets in Resources */,
 				03882B272438F52900EAFBD5 /* PieceMovedSound(1).wav in Resources */,

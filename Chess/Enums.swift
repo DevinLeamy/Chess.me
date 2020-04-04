@@ -57,3 +57,9 @@ enum Theme {
 	case Modern
 	case Rustic
 }
+
+enum MoveType {
+	case Capture
+	case Check
+	case Normal
+}

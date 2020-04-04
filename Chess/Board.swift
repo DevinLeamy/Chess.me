@@ -134,11 +134,16 @@ class Board {
 			print("You are trying to make an invalid move")
 			return
 		}
+		var moveType : MoveType = MoveType.Normal
 		if pieceBeingMoved.getType() == Pieces.King {
 			(pieceBeingMoved as! King).setCanCastle(canCastle: false)
 		}
 		movesPlayed += 1
 		pieceBeingMoved.setPosition(currentRow: row, currentCol: col)
+		
+		if board[row][col].getType() != Pieces.Blank {
+			moveType = MoveType.Capture
+		}
 		board[oldRow][oldCol] = Blank(currentRow: -1, currentCol: -1, side: Side.Blank, type: Pieces.Blank)
 		if board[row][col].getType() != Pieces.Blank {
 			let typeOfPieceCaptured = board[row][col].getType()
@@ -212,13 +217,20 @@ class Board {
 		let kingCol = king.getPosition()[1]
 		if king.isInCheck(gameBoard: self) {
 			userChessBoard[kingRow][kingCol].setBackgroundImage(RED_TILE_IMAGE, for: UIControl.State.normal)
+			moveType = MoveType.Check
 		}
 		if selectedGameMode == GameMode.BluetoothMultiplayer {
 			let viewController = (uiViewController as! ViewController)
 			viewController.sendMove(move: [oldRow, oldCol, row, col])
 		}
-		
-		playMadeMoveSound()
+		switch moveType {
+			case MoveType.Capture:
+				playSound(fileName: PIECE_CAPTURED_SOUND)
+			case MoveType.Normal:
+				playSound(fileName: GENERIC_MOVE_SOUND)
+			case MoveType.Check:
+				playSound(fileName: PUT_IN_CHECK_SOUND)
+		}
 	}
 	
 	func isOnBoard(_ row: Int, _ col: Int) -> Bool {
@@ -414,10 +426,8 @@ class Board {
 		}
 	}
 	
-	
-	//Play sound if any generic move is made
-	func playMadeMoveSound() -> Void {
-		let path = Bundle.main.path(forResource: "PieceMovedSound(3).wav", ofType: nil)!
+	func playSound(fileName : String) -> Void {
+		let path = Bundle.main.path(forResource: fileName, ofType: nil)!
 		let url = URL(fileURLWithPath: path)
 		
 		
