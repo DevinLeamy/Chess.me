@@ -42,10 +42,10 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	@IBOutlet var introBackgroundView: UIView!
 	//Initialize Buttons and labels
 	let introHeaderlbl = UILabel(frame:
-		CGRect(x: 122.adjustedWidth,
-		       y: 735.adjustedHeight,
-		       width: 150.adjustedWidth,
-		       height: 150.adjustedWidth)
+		CGRect(x: (UIScreen.main.bounds.width / 2) - (75.adjustedHeight),
+		       y: 725.adjustedHeight,
+		       width: 150.adjustedHeight,
+		       height: 150.adjustedHeight)
 	)
 	
 	let playlbl = UILabel(frame:
@@ -58,7 +58,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	let stickManlbl = UIImageView(frame:
 		CGRect(x: 40.adjustedWidth,
 		       y: 650.adjustedHeight,
-		       width: 75.adjustedWidth,
+		       width: 75.adjustedHeight,
 		       height: 150.adjustedHeight)
 	)
 	//.me
@@ -137,10 +137,10 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		
 		//Chess.me tag lbl
 		introHeaderlbl.text = "Chess.me"
-		introHeaderlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 32.adjustedWidth)
+		introHeaderlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 32.adjustedHeight)
 		introHeaderlbl.textColor = UIColor.black
 		introHeaderlbl.backgroundColor = UIColor.white
-		introHeaderlbl.layer.cornerRadius = 75.adjustedWidth
+		introHeaderlbl.layer.cornerRadius = 75.adjustedHeight
 		introHeaderlbl.textAlignment = NSTextAlignment.center
 		introHeaderlbl.clipsToBounds = true
 		self.view.addSubview(introHeaderlbl)
