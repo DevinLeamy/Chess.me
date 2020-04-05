@@ -26,11 +26,12 @@ var peerID: MCPeerID!
 var mcSession: MCSession!
 var mcAdvertiserAssistant: MCAdvertiserAssistant!
 var isHost = false
-let OptionsLblPositionAndSize = [100.adjustedWidth, 250.adjustedWidth, 50.adjustedHeight, 50.adjustedHeight] //X Coord, Width, Height, Font size
+let OptionsLblFontName = "HelveticaNeue-Thin"
+let OptionsLblPositionAndSize = [100.adjustedWidth, 250.adjustedWidth, 58.adjustedHeight, 45.adjustedHeight, 20.adjustedHeight] //X Coord, Width, Height, Font size, Corner radius
 let OptionsVerticalSpace = 100.adjustedHeight
-let OptionsBtnPositionAndSize = [360.adjustedWidth, 40.adjustedWidth, 40.adjustedWidth, 20.adjustedWidth] //X Coord, Width, Height, Corner Radius
-let FirstOptionLblDistanceFromTop = 200.adjustedHeight
-let FirstOptionBtnDistanceFromTop = 205.adjustedHeight
+let OptionsBtnPositionAndSize = [360.adjustedWidth, 45.adjustedWidth, 45.adjustedWidth, (22.5).adjustedWidth] //X Coord, Width, Height, Corner Radius
+let FirstOptionLblDistanceFromTop = 180.adjustedHeight
+let FirstOptionBtnDistanceFromTop = (186.5).adjustedHeight
 class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
 	var gameModes: [String] = [String]()
 	var chessQuotes: [[String]] = [[String]]()
@@ -39,9 +40,9 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	
 	@IBOutlet var introBackgroundView: UIView!
 	//Initialize Buttons and labels
-	let introHeaderlbl = UILabel(frame: CGRect(x: 25.adjustedWidth, y: 775.adjustedHeight, width: 300.adjustedWidth, height: 100.adjustedHeight))
+	let introHeaderlbl = UILabel(frame: CGRect(x: 132.adjustedWidth, y: 725.adjustedHeight, width: 150.adjustedWidth, height: 150.adjustedWidth))
 	
-	let playlbl = UILabel(frame: CGRect(x: 20.adjustedWidth, y: 100.adjustedHeight, width: 500.adjustedWidth, height: 90.adjustedHeight))
+	let playlbl = UILabel(frame: CGRect(x: 20.adjustedWidth, y: 70.adjustedHeight, width: 500.adjustedWidth, height: 90.adjustedHeight))
 	
 	//.me
 	let dotMelbl = UILabel(frame:
@@ -100,10 +101,10 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	)
 	
 	let displayQuotelbl = UILabel(frame:
-		CGRect(x: 67.adjustedWidth,
-		       y: 600.adjustedHeight,
-		       width: 300.adjustedWidth,
-		       height: 150.adjustedHeight
+		CGRect(x: 7.adjustedWidth,
+		       y: 550.adjustedHeight,
+		       width: 400.adjustedWidth,
+		       height: 175.adjustedHeight
 		)
 	)
 	
@@ -119,68 +120,92 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		
 		//Chess.me tag lbl
 		introHeaderlbl.text = "Chess.me"
-		introHeaderlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 45.adjustedWidth)
+		introHeaderlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 32.adjustedWidth)
 		introHeaderlbl.textColor = UIColor.black
+		introHeaderlbl.backgroundColor = UIColor.white
+		introHeaderlbl.layer.cornerRadius = 75.adjustedWidth
+		introHeaderlbl.textAlignment = NSTextAlignment.center
+		introHeaderlbl.clipsToBounds = true
 		self.view.addSubview(introHeaderlbl)
 		
 		//Play header label
-		playlbl.text = "Play"
-		playlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 80.adjustedWidth)
+		playlbl.text = "Chess"
+		playlbl.font = UIFont(name: "HelveticaNeue", size: 75.adjustedWidth)
 		playlbl.textColor = UIColor.black
 		self.view.addSubview(playlbl)
 		
 		//.me option
 		//1) .me label
-		dotMelbl.text = ".me"
-		dotMelbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: OptionsLblPositionAndSize[3])
+		dotMelbl.text = " .me"
+		dotMelbl.font = UIFont(name: OptionsLblFontName, size: OptionsLblPositionAndSize[3])
 		dotMelbl.textColor = UIColor.black
+		dotMelbl.backgroundColor = UIColor.white
+		dotMelbl.layer.cornerRadius = OptionsLblPositionAndSize[4]
+		dotMelbl.clipsToBounds = true
 		self.view.addSubview(dotMelbl)
 		
 		//2) .me btn
 		dotMebtn.layer.cornerRadius = OptionsBtnPositionAndSize[3]
 		dotMebtn.layer.backgroundColor = UIColor.black.cgColor
+		dotMebtn.layer.borderColor = UIColor.white.cgColor
+		dotMebtn.layer.borderWidth = 3
 		dotMebtn.addTarget(self, action: #selector(hoverDisplay), for: UIControl.Event.touchDown)
 		dotMebtn.addTarget(self, action: #selector(playDotMe), for: UIControl.Event.touchUpInside)
 		self.view.addSubview(dotMebtn)
 		
 		//.bluetooth option
 		//1) .bluetooth label
-		dotBluetoothlbl.text = ".bluetooth"
-		dotBluetoothlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: OptionsLblPositionAndSize[3])
+		dotBluetoothlbl.text = " .bluetooth"
+		dotBluetoothlbl.font = UIFont(name: OptionsLblFontName, size: OptionsLblPositionAndSize[3])
 		dotBluetoothlbl.textColor = UIColor.black
+		dotBluetoothlbl.backgroundColor = UIColor.white
+		dotBluetoothlbl.layer.cornerRadius = OptionsLblPositionAndSize[4]
+		dotBluetoothlbl.clipsToBounds = true
 		self.view.addSubview(dotBluetoothlbl)
 		
 		//2) .bluetooth btn
-		dotBluetoothbtn.layer.cornerRadius = 20.adjustedWidth
+		dotBluetoothbtn.layer.cornerRadius = OptionsBtnPositionAndSize[3]
 		dotBluetoothbtn.layer.backgroundColor = UIColor.black.cgColor
+		dotBluetoothbtn.layer.borderColor = UIColor.white.cgColor
+		dotBluetoothbtn.layer.borderWidth = 3
 		dotBluetoothbtn.addTarget(self, action: #selector(hoverDisplay), for: UIControl.Event.touchDown)
 		dotBluetoothbtn.addTarget(self, action: #selector(playDotBluetooth), for: UIControl.Event.touchUpInside)
 		self.view.addSubview(dotBluetoothbtn)
 		
 		// .online option
 		//1) .online lbl
-		dotOnlinelbl.text = ".online"
-		dotOnlinelbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: OptionsLblPositionAndSize[3])
+		dotOnlinelbl.text = " .online"
+		dotOnlinelbl.font = UIFont(name: OptionsLblFontName, size: OptionsLblPositionAndSize[3])
 		dotOnlinelbl.textColor = UIColor.black
+		dotOnlinelbl.backgroundColor = UIColor.white
+		dotOnlinelbl.layer.cornerRadius = OptionsLblPositionAndSize[4]
+		dotOnlinelbl.clipsToBounds = true
 		self.view.addSubview(dotOnlinelbl)
 		
 		//2) .online btn
-		dotOnlinebtn.layer.cornerRadius = 20.adjustedWidth
+		dotOnlinebtn.layer.cornerRadius = OptionsBtnPositionAndSize[3]
 		dotOnlinebtn.layer.backgroundColor = UIColor.black.cgColor
+		dotOnlinebtn.layer.borderColor = UIColor.white.cgColor
+		dotOnlinebtn.layer.borderWidth = 3
 		dotOnlinebtn.addTarget(self, action: #selector(hoverDisplay), for: UIControl.Event.touchDown)
 		dotOnlinebtn.addTarget(self, action: #selector(playDotOnline), for: UIControl.Event.touchUpInside)
 		self.view.addSubview(dotOnlinebtn)
 		
 		// .couple option
 		//1) .couple lbl
-		dotCouplelbl.text = ".couple"
-		dotCouplelbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: OptionsLblPositionAndSize[3])
+		dotCouplelbl.text = " .couple"
+		dotCouplelbl.font = UIFont(name: OptionsLblFontName, size: OptionsLblPositionAndSize[3])
 		dotCouplelbl.textColor = UIColor.black
+		dotCouplelbl.backgroundColor = UIColor.white
+		dotCouplelbl.layer.cornerRadius = OptionsLblPositionAndSize[4]
+		dotCouplelbl.clipsToBounds = true
 		self.view.addSubview(dotCouplelbl)
 		
 		//2) .couple btn
-		dotCouplebtn.layer.cornerRadius = 20.adjustedWidth
+		dotCouplebtn.layer.cornerRadius = OptionsBtnPositionAndSize[3]
 		dotCouplebtn.layer.backgroundColor = UIColor.black.cgColor
+		dotCouplebtn.layer.borderColor = UIColor.white.cgColor
+		dotCouplebtn.layer.borderWidth = 3
 		dotCouplebtn.addTarget(self, action: #selector(hoverDisplay), for: UIControl.Event.touchDown)
 		dotCouplebtn.addTarget(self, action: #selector(playDotCouple), for: UIControl.Event.touchUpInside)
 		self.view.addSubview(dotCouplebtn)
@@ -188,7 +213,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		//Display Random Quote
 		displayQuotelbl.textColor = UIColor.black
 //		displayQuotelbl.backgroundColor = UIColor.white
-		displayQuotelbl.font =  UIFont(name: "AppleSDGothicNeo-SemiBold", size: 23.adjustedWidth)
+		displayQuotelbl.font =  UIFont(name: "AvenirNextCondensed-Italic", size: 25.adjustedWidth)
 		displayQuotelbl.lineBreakMode = NSLineBreakMode.byWordWrapping
 		displayQuotelbl.numberOfLines = 4
 		displayQuotelbl.textAlignment = NSTextAlignment.center
@@ -220,7 +245,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	@objc func playDotBluetooth(_ sender: UIButton) {
 		sender.alpha = 1
 		selectedGameMode = GameMode.BluetoothMultiplayer
-		let alert = UIAlertController(title: "Play.bluetooth", message: "Join or Host a Game Session", preferredStyle: .actionSheet)
+		let alert = UIAlertController(title: "Play.bluetooth", message: "Join or Host a Game Session", preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "Join", style: .default, handler: joinSession))
 		alert.addAction(UIAlertAction(title: "Host", style: .default, handler: startHosting))
 		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: stopBluetooth))
