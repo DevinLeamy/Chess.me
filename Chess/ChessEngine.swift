@@ -332,5 +332,4 @@ class ChessEngine {
 		return value
 	}
 	//Create transposition table using hashmap store positions in a 64 character string
-	
 }

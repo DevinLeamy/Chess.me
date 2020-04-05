@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		031761F12439A0EC00D9BD52 /* PieceCapturedSound(1).wav in Resources */ = {isa = PBXBuildFile; fileRef = 031761F02439A0EC00D9BD52 /* PieceCapturedSound(1).wav */; };
 		035314712423E125001B7915 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035314702423E125001B7915 /* AppDelegate.swift */; };
 		035314732423E125001B7915 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035314722423E125001B7915 /* SceneDelegate.swift */; };
 		035314752423E125001B7915 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035314742423E125001B7915 /* ViewController.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		031761F02439A0EC00D9BD52 /* PieceCapturedSound(1).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "PieceCapturedSound(1).wav"; sourceTree = "<group>"; };
 		0353146D2423E125001B7915 /* Chess.me.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chess.me.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		035314702423E125001B7915 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		035314722423E125001B7915 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		03882B242438F4D400EAFBD5 /* Sound Effects */ = {
 			isa = PBXGroup;
 			children = (
+				031761F02439A0EC00D9BD52 /* PieceCapturedSound(1).wav */,
 				03882B2B2438FD0B00EAFBD5 /* PieceInCheckSound(1).wav */,
 				03882B252438F52900EAFBD5 /* PieceMovedSound(1).wav */,
 				03882B2D2439000B00EAFBD5 /* PieceInCheckSound(2).wav */,
@@ -212,6 +215,7 @@
 				0353147A2423E128001B7915 /* Assets.xcassets in Resources */,
 				03882B272438F52900EAFBD5 /* PieceMovedSound(1).wav in Resources */,
 				03882B2A2438F77A00EAFBD5 /* PieceMovedSound(3).wav in Resources */,
+				031761F12439A0EC00D9BD52 /* PieceCapturedSound(1).wav in Resources */,
 				035314782423E125001B7915 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
