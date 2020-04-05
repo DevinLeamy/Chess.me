@@ -102,13 +102,13 @@ class ViewController: UIViewController {
 		toolBar.barTintColor = UIColor.white
 		
 		//Commented out for testing
-//		if selectedGameMode == GameMode.BluetoothMultiplayer {
-//			if isHost {
-//				mySide = Side.White
-//			} else {
-//				mySide = Side.Black
-//			}
-//		}
+		if selectedGameMode == GameMode.BluetoothMultiplayer {
+			if isHost {
+				mySide = Side.White
+			} else {
+				mySide = Side.Black
+			}
+		}
 		
 	}
 	func getButtonsFromStackView() -> Void {

@@ -26,61 +26,175 @@ var peerID: MCPeerID!
 var mcSession: MCSession!
 var mcAdvertiserAssistant: MCAdvertiserAssistant!
 var isHost = false
-
+let OptionsLblPositionAndSize = [100.adjustedWidth, 250.adjustedWidth, 50.adjustedHeight, 50.adjustedHeight] //X Coord, Width, Height, Font size
+let OptionsVerticalSpace = 100.adjustedHeight
+let OptionsBtnPositionAndSize = [360.adjustedWidth, 40.adjustedWidth, 40.adjustedWidth, 20.adjustedWidth] //X Coord, Width, Height, Corner Radius
+let FirstOptionLblDistanceFromTop = 200.adjustedHeight
+let FirstOptionBtnDistanceFromTop = 205.adjustedHeight
 class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
-	@IBOutlet var decorationImage: UIImageView!
-	@IBOutlet var changeGameModebtn: UIButton!
-	@IBOutlet var introHeaderlbl: UILabel!
-	@IBOutlet var playButton: UIButton!
-	@IBOutlet var introBackgroundView: UIView!
-	@IBOutlet var displayGameModelbl: UILabel!
-	@IBOutlet var displayQuotelbl: UILabel!
 	var gameModes: [String] = [String]()
 	var chessQuotes: [[String]] = [[String]]()
 	var currentRow = 0
+	
+	
+	@IBOutlet var introBackgroundView: UIView!
+	//Initialize Buttons and labels
+	let introHeaderlbl = UILabel(frame: CGRect(x: 25.adjustedWidth, y: 775.adjustedHeight, width: 300.adjustedWidth, height: 100.adjustedHeight))
+	
+	let playlbl = UILabel(frame: CGRect(x: 20.adjustedWidth, y: 100.adjustedHeight, width: 500.adjustedWidth, height: 90.adjustedHeight))
+	
+	//.me
+	let dotMelbl = UILabel(frame:
+		CGRect(x: OptionsLblPositionAndSize[0],
+		       y: FirstOptionLblDistanceFromTop,
+		       width: OptionsLblPositionAndSize[1],
+		       height: OptionsLblPositionAndSize[2])
+	)
+	let dotMebtn = UIButton(frame:
+		CGRect(x: OptionsBtnPositionAndSize[0],
+		       y: FirstOptionBtnDistanceFromTop,
+		       width: OptionsBtnPositionAndSize[1],
+		       height: OptionsBtnPositionAndSize[2])
+	)
+	
+	//.bluetooth
+	let dotBluetoothlbl = UILabel(frame:
+		CGRect(x: OptionsLblPositionAndSize[0],
+		       y: FirstOptionLblDistanceFromTop + (OptionsVerticalSpace * 1),
+		       width: OptionsLblPositionAndSize[1],
+		       height: OptionsLblPositionAndSize[2])
+	)
+	let dotBluetoothbtn = UIButton(frame:
+		CGRect(x: OptionsBtnPositionAndSize[0],
+		       y: FirstOptionBtnDistanceFromTop + (OptionsVerticalSpace * 1),
+		       width: OptionsBtnPositionAndSize[1],
+		       height: OptionsBtnPositionAndSize[2])
+	)
+	
+	//.online
+	let dotOnlinelbl = UILabel(frame:
+		CGRect(x: OptionsLblPositionAndSize[0],
+			y: FirstOptionLblDistanceFromTop + (OptionsVerticalSpace * 2),
+			width: OptionsLblPositionAndSize[1],
+			height: OptionsLblPositionAndSize[2])
+	)
+	let dotOnlinebtn = UIButton(frame:
+		CGRect(x: OptionsBtnPositionAndSize[0],
+		       y: FirstOptionBtnDistanceFromTop + (OptionsVerticalSpace * 2),
+		       width: OptionsBtnPositionAndSize[1],
+		       height: OptionsBtnPositionAndSize[2])
+	)
+	
+	//.online
+	let dotCouplelbl = UILabel(frame:
+		CGRect(x: OptionsLblPositionAndSize[0],
+			y: FirstOptionLblDistanceFromTop + (OptionsVerticalSpace * 3),
+			width: OptionsLblPositionAndSize[1],
+			height: OptionsLblPositionAndSize[2])
+	)
+	let dotCouplebtn = UIButton(frame:
+		CGRect(x: OptionsBtnPositionAndSize[0],
+		       y: FirstOptionBtnDistanceFromTop + (OptionsVerticalSpace * 3),
+		       width: OptionsBtnPositionAndSize[1],
+		       height: OptionsBtnPositionAndSize[2])
+	)
+	
+	let displayQuotelbl = UILabel(frame:
+		CGRect(x: 67.adjustedWidth,
+		       y: 600.adjustedHeight,
+		       width: 300.adjustedWidth,
+		       height: 150.adjustedHeight
+		)
+	)
+	
+	//Random Quote display
+	
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		//Initialize multipeer connectivity stuff
 		peerID = MCPeerID(displayName: UIDevice.current.name)
 		mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .optional)
 		mcSession.delegate = self
 		
+		//Chess.me tag lbl
+		introHeaderlbl.text = "Chess.me"
+		introHeaderlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 45.adjustedWidth)
+		introHeaderlbl.textColor = UIColor.black
+		self.view.addSubview(introHeaderlbl)
 		
-//		introHeaderlbl.layer.backgroundColor = UIColor.lightGray.cgColor
-		introHeaderlbl.layer.borderColor = UIColor.white.cgColor
-		introHeaderlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: CGFloat(90.adjustedWidth))
-//		introHeaderlbl.layer.borderWidth = 5
+		//Play header label
+		playlbl.text = "Play"
+		playlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 80.adjustedWidth)
+		playlbl.textColor = UIColor.black
+		self.view.addSubview(playlbl)
 		
-		introBackgroundView.layer.contents = (INTRO_BACKGROUND_IMAGE).cgImage
+		//.me option
+		//1) .me label
+		dotMelbl.text = ".me"
+		dotMelbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: OptionsLblPositionAndSize[3])
+		dotMelbl.textColor = UIColor.black
+		self.view.addSubview(dotMelbl)
 		
-		changeGameModebtn.layer.cornerRadius = 20
-		changeGameModebtn.layer.backgroundColor = UIColor.white.cgColor
+		//2) .me btn
+		dotMebtn.layer.cornerRadius = OptionsBtnPositionAndSize[3]
+		dotMebtn.layer.backgroundColor = UIColor.black.cgColor
+		dotMebtn.addTarget(self, action: #selector(hoverDisplay), for: UIControl.Event.touchDown)
+		dotMebtn.addTarget(self, action: #selector(playDotMe), for: UIControl.Event.touchUpInside)
+		self.view.addSubview(dotMebtn)
 		
+		//.bluetooth option
+		//1) .bluetooth label
+		dotBluetoothlbl.text = ".bluetooth"
+		dotBluetoothlbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: OptionsLblPositionAndSize[3])
+		dotBluetoothlbl.textColor = UIColor.black
+		self.view.addSubview(dotBluetoothlbl)
 		
-		playButton.clipsToBounds = true
-		playButton.layer.cornerRadius = 30
-		playButton.layer.backgroundColor = UIColor.black.cgColor // PINK_COLOR.cgColor// original color
-		playButton.layer.borderWidth = 20
-		playButton.layer.borderColor = UIColor.white.cgColor
-
+		//2) .bluetooth btn
+		dotBluetoothbtn.layer.cornerRadius = 20.adjustedWidth
+		dotBluetoothbtn.layer.backgroundColor = UIColor.black.cgColor
+		dotBluetoothbtn.addTarget(self, action: #selector(hoverDisplay), for: UIControl.Event.touchDown)
+		dotBluetoothbtn.addTarget(self, action: #selector(playDotBluetooth), for: UIControl.Event.touchUpInside)
+		self.view.addSubview(dotBluetoothbtn)
 		
-//		displayGameModelbl.layer.backgroundColor = UIColor.lightGray.cgColor
-//		displayGameModelbl.layer.borderColor = UIColor.black.cgColor
-		displayGameModelbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 50.adjustedWidth)
-		let text = NSMutableAttributedString(string: "Play.me")
-		text.setColorForText("Play", with: UIColor.white)
-		text.setColorForText(".me", with: UIColor.black)
-		displayGameModelbl.attributedText = text
-//		displayGameModelbl.layer.borderWidth = 2
+		// .online option
+		//1) .online lbl
+		dotOnlinelbl.text = ".online"
+		dotOnlinelbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: OptionsLblPositionAndSize[3])
+		dotOnlinelbl.textColor = UIColor.black
+		self.view.addSubview(dotOnlinelbl)
 		
-		decorationImage.image = DECORATION_IMAGE //X = 11, Y = 179
-//		decorationImage.layer.cornerRadius = 125
+		//2) .online btn
+		dotOnlinebtn.layer.cornerRadius = 20.adjustedWidth
+		dotOnlinebtn.layer.backgroundColor = UIColor.black.cgColor
+		dotOnlinebtn.addTarget(self, action: #selector(hoverDisplay), for: UIControl.Event.touchDown)
+		dotOnlinebtn.addTarget(self, action: #selector(playDotOnline), for: UIControl.Event.touchUpInside)
+		self.view.addSubview(dotOnlinebtn)
 		
+		// .couple option
+		//1) .couple lbl
+		dotCouplelbl.text = ".couple"
+		dotCouplelbl.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: OptionsLblPositionAndSize[3])
+		dotCouplelbl.textColor = UIColor.black
+		self.view.addSubview(dotCouplelbl)
+		
+		//2) .couple btn
+		dotCouplebtn.layer.cornerRadius = 20.adjustedWidth
+		dotCouplebtn.layer.backgroundColor = UIColor.black.cgColor
+		dotCouplebtn.addTarget(self, action: #selector(hoverDisplay), for: UIControl.Event.touchDown)
+		dotCouplebtn.addTarget(self, action: #selector(playDotCouple), for: UIControl.Event.touchUpInside)
+		self.view.addSubview(dotCouplebtn)
+		
+		//Display Random Quote
 		displayQuotelbl.textColor = UIColor.black
 //		displayQuotelbl.backgroundColor = UIColor.white
-		displayQuotelbl.layer.cornerRadius = 10
-		displayQuotelbl.font = UIFont(name: "HelveticaNeue-LightItalic", size: 23.adjustedWidth)
+		displayQuotelbl.font =  UIFont(name: "AppleSDGothicNeo-SemiBold", size: 23.adjustedWidth)
 		displayQuotelbl.lineBreakMode = NSLineBreakMode.byWordWrapping
 		displayQuotelbl.numberOfLines = 4
+		displayQuotelbl.textAlignment = NSTextAlignment.center
+		self.view.addSubview(displayQuotelbl)
+		
+		introBackgroundView.layer.contents = (INTRO_BACKGROUND_IMAGE).cgImage
 		
                 gameModes = ["me", "bluetooth", "online", "couple"]
 		
@@ -94,46 +208,51 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		]
 		setRandomQuote() //Puts and formats a random quote in the quoteDisplaylbl
 	}
-    
 	
-	@IBAction func hoverDisplay(_ sender: UIButton) {
+	//Play.me btn function
+	@objc func playDotMe(_ sender: UIButton) {
+		sender.alpha = 1
+		selectedGameMode = GameMode.SinglePlayer
+		showGameViewController(sender)
+	}
+	
+	//Play.bluetooth btn function
+	@objc func playDotBluetooth(_ sender: UIButton) {
+		sender.alpha = 1
+		selectedGameMode = GameMode.BluetoothMultiplayer
+		let alert = UIAlertController(title: "Play.bluetooth", message: "Join or Host a Game Session", preferredStyle: .actionSheet)
+		alert.addAction(UIAlertAction(title: "Join", style: .default, handler: joinSession))
+		alert.addAction(UIAlertAction(title: "Host", style: .default, handler: startHosting))
+		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: stopBluetooth))
+		self.present(alert, animated: true, completion: nil)
+		showGameViewController(sender)
+	}
+	
+	//Play.online btn function NOTE: Online features not yet implemented
+	@objc func playDotOnline(_ sender: UIButton) {
+		sender.alpha = 1
+		selectedGameMode = GameMode.Multiplayer
+		showGameViewController(sender)
+	}
+	
+	@objc func playDotCouple(_ sender: UIButton) {
+		sender.alpha = 1
+		selectedGameMode = GameMode.LocalMultiplayer
+		showGameViewController(sender)
+	}
+	
+	@objc func hoverDisplay(_ sender: UIButton) {
 		sender.alpha = 0.5
 	}
-	@IBAction func changeGameMode(_ sender: UIButton) {
-		sender.alpha = 1
-		currentRow += 1
-		currentRow %= gameModes.count
-		switch gameModes[currentRow] {
-                        case gameModes[0]:
-				selectedGameMode = GameMode.SinglePlayer
-                        case gameModes[1]:
-				selectedGameMode = GameMode.BluetoothMultiplayer
-				let alert = UIAlertController(title: "Play.bluetooth", message: "Join or Host a Game Session", preferredStyle: .actionSheet)
-				alert.addAction(UIAlertAction(title: "Join", style: .default, handler: joinSession))
-				alert.addAction(UIAlertAction(title: "Host", style: .default, handler: startHosting))
-				alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: stopBluetooth))
-				self.present(alert, animated: true, completion: nil)
-                        case gameModes[2]:
-				selectedGameMode = GameMode.Multiplayer
-			case gameModes[3]:
-				selectedGameMode = GameMode.LocalMultiplayer
-                        default:
-                            _ = true
-                }
-		let text = NSMutableAttributedString(string: "Play." + gameModes[currentRow])
-		text.setColorForText("Play", with: UIColor.white)
-		text.setColorForText("." + gameModes[currentRow], with: UIColor.black)
-		displayGameModelbl.attributedText = text
-	}
 	
-	@IBAction func showGameViewController(_ sender: UIButton) {
+	@objc func showGameViewController(_ sender: UIButton) {
 		sender.alpha = 1
 		let storyboard = UIStoryboard(name: "Main", bundle: nil)
 		let secondVC = storyboard.instantiateViewController(identifier: "gameViewController")
 		show(secondVC, sender: self)
 	}
 	
-	@IBAction func hoverPlayButton(_ sender: UIButton) {
+	@objc func hoverPlayButton(_ sender: UIButton) {
 		sender.alpha = 0.5
 	}
 	
@@ -209,7 +328,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		let text = NSMutableAttributedString(string: "Play." + gameModes[currentRow])
 		text.setColorForText("Play", with: UIColor.white)
 		text.setColorForText("." + gameModes[currentRow], with: UIColor.black)
-		displayGameModelbl.attributedText = text
+//		displayGameModelbl.attributedText = text
 		
 		peerID = MCPeerID(displayName: UIDevice.current.name)
 		mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
