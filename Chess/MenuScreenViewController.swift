@@ -11,6 +11,7 @@ import MultipeerConnectivity
 
 let INTRO_BACKGROUND_IMAGE = UIImage(named: "IntroBackgroundImage(3)")!
 let DECORATION_IMAGE = UIImage(named: "DecorationImage(3)")
+let STICKMAN_FIGURE = UIImage(named: "StickFigure(3)")!
 var selectedGameMode = GameMode.SinglePlayer
 let PINK_COLOR = UIColor.init(displayP3Red: 249/255.0, green: 214/255.0, blue: 215/255.0, alpha: 1)
 extension NSMutableAttributedString {
@@ -40,10 +41,26 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 	
 	@IBOutlet var introBackgroundView: UIView!
 	//Initialize Buttons and labels
-	let introHeaderlbl = UILabel(frame: CGRect(x: 132.adjustedWidth, y: 725.adjustedHeight, width: 150.adjustedWidth, height: 150.adjustedWidth))
+	let introHeaderlbl = UILabel(frame:
+		CGRect(x: 122.adjustedWidth,
+		       y: 735.adjustedHeight,
+		       width: 150.adjustedWidth,
+		       height: 150.adjustedWidth)
+	)
 	
-	let playlbl = UILabel(frame: CGRect(x: 20.adjustedWidth, y: 70.adjustedHeight, width: 500.adjustedWidth, height: 90.adjustedHeight))
+	let playlbl = UILabel(frame:
+		CGRect(x: 20.adjustedWidth,
+		       y: 70.adjustedHeight,
+		       width: 500.adjustedWidth,
+		       height: 90.adjustedHeight)
+	)
 	
+	let stickManlbl = UIImageView(frame:
+		CGRect(x: 40.adjustedWidth,
+		       y: 650.adjustedHeight,
+		       width: 75.adjustedWidth,
+		       height: 150.adjustedHeight)
+	)
 	//.me
 	let dotMelbl = UILabel(frame:
 		CGRect(x: OptionsLblPositionAndSize[0],
@@ -131,8 +148,13 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		//Play header label
 		playlbl.text = "Chess"
 		playlbl.font = UIFont(name: "HelveticaNeue", size: 75.adjustedWidth)
-		playlbl.textColor = UIColor.black
+		playlbl.textColor = UIColor.white
 		self.view.addSubview(playlbl)
+		
+		//Stick man decoration image
+		stickManlbl.contentMode = UIView.ContentMode.scaleToFill
+		stickManlbl.image = STICKMAN_FIGURE
+		self.view.addSubview(stickManlbl)
 		
 		//.me option
 		//1) .me label
