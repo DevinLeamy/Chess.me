@@ -1,5 +1,5 @@
 # Chess.me
-A Chess App for the IPhone. Enjoy! <br/>
+A Chess App for the iPhone. Enjoy! <br/>
 Note: The game support **ALL** iPhone models
 # Game Modes
 **.me** - Play against a basic Chess "AI". More about the opponent, the Chess AI uses a Min-Max tree to find the "best" move and alpha-beta pruning for optimization. For board evalution it uses piece values and piece-square tables. As of now it looks four moves deep. <br/> <br/>
