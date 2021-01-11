@@ -1,6 +1,6 @@
 # Chess.me
 A Chess App for the iPhone. Enjoy! <br/>
-Note: The game support **ALL** iPhone models
+Note: This game supports **ALL** iPhone models
 # Game Modes
 **.me** - Play against a basic Chess "AI". More about the opponent, the Chess AI uses a Min-Max tree to find the "best" move and alpha-beta pruning for optimization. For board evalution it uses piece values and piece-square tables. As of now it looks four moves deep. <br/> <br/>
 **.bluetooth** - Play with friends. Using Xcode's Multipeer Connectivity framework I implemented bluetooth Chess. Host a game session or join a friend's. <br/> Note: This game mode contains bugs, however, they are not fatal so do not fret. <br/> <br/>
