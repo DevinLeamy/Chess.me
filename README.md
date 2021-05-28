@@ -21,5 +21,5 @@ A Chess App for the iPhone. Enjoy! <br/>
 8. > [⌘ + SHIFT + K] or > Product > Clean <br/>
 9. > [⌘ + R] or > Product > Run
 
-# Goal
-The goal of making this application has been to learn the basics of Swift and Xcode i.e. making custom views, creating UIs, using outlets, actions, etc. I want to learn Swift/Xcode because I want to be able to make apps, good apps, that people are willing to pay me to use. The great thing about software products like apps is that there is very little overhead so all I need to invest is time in order to produce a product that has the potential to make money. All in all, I want to start a business so I thought I mine as well start learning how to make and sell software. 
+<!-- # Goal
+The goal of making this application has been to learn the basics of Swift and Xcode i.e. making custom views, creating UIs, using outlets, actions, etc. I want to learn Swift/Xcode because I want to be able to make apps, good apps, that people are willing to pay me to use. The great thing about software products like apps is that there is very little overhead so all I need to invest is time in order to produce a product that has the potential to make money. All in all, I want to start a business so I thought I mine as well start learning how to make and sell software.  -->
