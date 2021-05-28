@@ -196,7 +196,7 @@ class MenuScreenViewController: UIViewController, MCSessionDelegate, MCBrowserVi
 		
 		// .online option
 		//1) .online lbl
-		dotOnlinelbl.text = " .online"
+		dotOnlinelbl.text = " .secret"
 		dotOnlinelbl.font = UIFont(name: OptionsLblFontName, size: OptionsLblPositionAndSize[3])
 		dotOnlinelbl.textColor = UIColor.black
 		dotOnlinelbl.backgroundColor = UIColor.white
